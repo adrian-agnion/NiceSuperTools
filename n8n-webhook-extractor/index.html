@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<!-- <a href="https://chatgpt.com/share/69849571-c54c-800f-af55-fec042061410">ai source</a> -->
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>n8n Webhook Extractor</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background: #f7f7f7;
+  }
+  h1 { text-align: center; }
+  textarea {
+    width: 100%;
+    height: 150px;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-family: monospace;
+    font-size: 14px;
+  }
+  #dropzone {
+    border: 2px dashed #999;
+    padding: 40px;
+    text-align: center;
+    color: #666;
+    margin-bottom: 10px;
+    background: #fff;
+    cursor: pointer;
+  }
+  #dropzone.hover {
+    border-color: #333;
+    color: #333;
+    background: #eef;
+  }
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px 5px 20px 0;
+  }
+  pre {
+    background: #222;
+    color: #0f0;
+    padding: 10px;
+    overflow-x: auto;
+    position: relative;
+  }
+  #copyBtn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<h1>n8n Webhook Extractor</h1>
+
+<div id="dropzone">Drag & drop a file here or click to upload JSON</div>
+<input type="file" id="fileInput" style="display:none">
+
+<textarea id="jsonInput" placeholder="Or paste JSON here..."></textarea>
+<button id="extractBtn">Extract Webhooks</button>
+<button id="resetBtn">Reset</button>
+
+<h2>Result:</h2>
+<div style="position:relative;">
+  <button id="copyBtn">Copy to Clipboard</button>
+  <pre id="output"></pre>
+</div>
+
+<script>
+const dropzone = document.getElementById('dropzone');
+const fileInput = document.getElementById('fileInput');
+const jsonInput = document.getElementById('jsonInput');
+const output = document.getElementById('output');
+const extractBtn = document.getElementById('extractBtn');
+const resetBtn = document.getElementById('resetBtn');
+const copyBtn = document.getElementById('copyBtn');
+
+// Drag & Drop
+dropzone.addEventListener('dragover', e => {
+  e.preventDefault();
+  dropzone.classList.add('hover');
+});
+dropzone.addEventListener('dragleave', e => {
+  e.preventDefault();
+  dropzone.classList.remove('hover');
+});
+dropzone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropzone.classList.remove('hover');
+  const file = e.dataTransfer.files[0];
+  if (file) readFile(file);
+});
+dropzone.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', () => {
+  if (fileInput.files[0]) readFile(fileInput.files[0]);
+});
+
+function readFile(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    jsonInput.value = e.target.result;
+  };
+  reader.readAsText(file);
+}
+
+// Extract Webhooks
+function extractWebhooks(n8nWorkflowJson) {
+  if (!n8nWorkflowJson || !Array.isArray(n8nWorkflowJson.nodes)) return [];
+
+  const workflowName = n8nWorkflowJson.name;
+  const workflowId = n8nWorkflowJson.id;
+
+  return n8nWorkflowJson.nodes
+    .filter(node => node.type === "n8n-nodes-base.webhook")
+    .map(node => {
+      const webhook = {};
+
+      if (node.parameters?.path) webhook.path = node.parameters.path;
+      if (node.parameters?.httpMethod) webhook.httpMethod = node.parameters.httpMethod;
+
+      // credentials
+      if (node.credentials) {
+        const credKeys = Object.keys(node.credentials);
+        if (credKeys.length > 0) {
+          webhook.credentials = {};
+          credKeys.forEach(key => {
+            const cred = node.credentials[key];
+            if (cred?.id) webhook.credentials[key] = { id: cred.id };
+            if (cred?.name) {
+              webhook.credentials = webhook.credentials || {};
+              webhook.credentials[key].name = cred.name;
+              webhook.credentials[key] = webhook.credentials[key] || {};
+            }
+          });
+        }
+      }
+
+      if (workflowName) webhook.workflowName = workflowName;
+      if (workflowId) webhook.workflowId = workflowId;
+
+      return webhook;
+    })
+    .filter(hook => Object.keys(hook).length > 0 && hook.httpMethod && hook.path);
+}
+
+
+// Extract button
+extractBtn.addEventListener('click', () => {
+  output.textContent = '';
+  let jsonData;
+  try {
+    jsonData = JSON.parse(jsonInput.value);
+  } catch (e) {
+    output.textContent = 'Invalid JSON!';
+    return;
+  }
+
+  const webhooks = extractWebhooks(jsonData);
+  if (webhooks.length === 0) {
+    output.textContent = 'No webhooks found.';
+  } else {
+    output.textContent = JSON.stringify(webhooks, null, 2);
+  }
+});
+
+// Reset button
+resetBtn.addEventListener('click', () => {
+  jsonInput.value = '';
+  output.textContent = '';
+});
+
+// Copy button
+copyBtn.addEventListener('click', () => {
+  if (!output.textContent) return;
+  navigator.clipboard.writeText(output.textContent).then(() => {
+    alert('Copied to clipboard!');
+  });
+});
+</script>
+
+
+<h2>Generate n8n Node Templates</h2>
+<input type="text" id="endpoint" placeholder="Enter endpoint URL" value="https://INSTANCE.app.n8n.cloud/webhook/" style="width:80%; padding:5px; margin-bottom:10px;">
+<button onclick="generate()">Generate n8n node templates</button>
+
+<script>
+  function generateN8nWebhookCode(webhooks, endpoint) {
+    const result = { nodes: [], connections: {} };
+
+    const baseY = 0;
+    const gapY = 208;
+
+    webhooks.forEach((webhook, index) => {
+      const y = baseY + index * gapY;
+
+      const path = webhook.path;
+      const method = webhook.httpMethod;
+      const postName = `${path} (${method})`;
+      const paramName = `${path} (parameters)`;
+
+      result.nodes.push(
+        {
+          parameters: {
+            mode: "raw",
+            jsonOutput:
+`{
+  "parameters": [
+    {
+      "key": "parameterKey",
+      "value": "parameterValue"
+    }
+  ]
+}`,
+            options: {}
+          },
+          type: "n8n-nodes-base.set",
+          typeVersion: 3.4,
+          position: [0, y],
+          id: crypto.randomUUID(),
+          name: paramName
+        },
+        {
+          parameters: {
+            method,
+            url: `=${endpoint}${path}`,
+            authentication: "genericCredentialType",
+            genericAuthType: "httpBasicAuth",
+            sendBody: true,
+            bodyParameters: {
+              parameters: [
+                {
+                  name: "={{ $json.parameters[0].key }}",
+                  value: "={{ $json.parameters[0].value }}"
+                }
+              ]
+            },
+            options: {}
+          },
+          type: "n8n-nodes-base.httpRequest",
+          typeVersion: 4.3,
+          position: [208, y],
+          id: crypto.randomUUID(),
+          name: postName,
+          notesInFlow: true,
+          credentials: webhook.credentials
+        }
+      );
+
+      result.connections[paramName] = {
+        main: [[{ node: postName, type: "main", index: 0 }]]
+      };
+    });
+
+    return JSON.stringify(result, null, 2);
+  }
+
+  function generate() {
+    try {
+      const webhooks = JSON.parse(
+        document.getElementById("output").textContent // use extracted webhooks
+      );
+      const endpoint =
+        document.getElementById("endpoint").value.trim();
+
+      document.getElementById("output").textContent =
+        generateN8nWebhookCode(webhooks, endpoint);
+    } catch (e) {
+      document.getElementById("output").textContent =
+        "Invalid JSON in webhooks textarea or no webhooks extracted yet!";
+    }
+  }
+</script>
+
+
+</body>
+</html>
