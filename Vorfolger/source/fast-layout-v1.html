@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fast-Layout — Vorgänger/Nachfolger-Grafik</title>
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --panel: #ffffff;
+    --border: #d0d4da;
+    --text: #1c2330;
+    --muted: #616a78;
+    --accent: #2f6fd0;
+    --edge: #7c8798;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    display: flex;
+    flex-direction: column;
+    font: 14px/1.45 "Segoe UI", system-ui, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+  }
+  header { padding: 12px 16px 8px; }
+  h1 { margin: 0 0 2px; font-size: 18px; }
+  header p { margin: 0; color: var(--muted); font-size: 13px; }
+  main { flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 10px 16px 16px; min-height: 0; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; }
+  .editor { display: flex; flex-direction: column; }
+  textarea {
+    width: 100%;
+    height: 132px;
+    resize: vertical;
+    border: none;
+    border-radius: 6px 6px 0 0;
+    padding: 10px 12px;
+    font: 13px/1.5 Consolas, "Courier New", monospace;
+    color: inherit;
+    outline: none;
+  }
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-top: 1px solid var(--border);
+  }
+  button {
+    font: inherit;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: #fbfbfc;
+    color: inherit;
+    cursor: pointer;
+  }
+  button:hover { background: #eef2f8; border-color: #aab4c2; }
+  label.check { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); cursor: pointer; }
+  .spacer { flex: 1; }
+  #status { color: var(--muted); font-size: 13px; white-space: pre-line; }
+  #status .warn { color: #a8551b; }
+  .stage { flex: 1; min-height: 320px; overflow: hidden; position: relative; }
+  .stage svg { display: block; width: 100%; height: 100%; cursor: grab; background:
+      linear-gradient(90deg, #eceef2 1px, transparent 1px) 0 0/200px 200px,
+      linear-gradient(#eceef2 1px, transparent 1px) 0 0/200px 200px, var(--panel); }
+  .stage svg.dragging { cursor: grabbing; }
+  .node rect { fill: #ffffff; stroke: #55617a; stroke-width: 1.25; }
+  .node text { font: 12px/1 Consolas, "Courier New", monospace; fill: var(--text); dominant-baseline: middle; text-anchor: middle; }
+  .node { cursor: default; }
+  .edge { fill: none; stroke: var(--edge); stroke-width: 1.4; }
+  .edge.back { stroke: #c0563c; stroke-dasharray: 5 4; }
+  .node.frame rect { fill: #e7eaef; stroke: #8b95a5; }
+  .node.frame text { font-weight: 600; fill: #46505f; }
+  svg.highlight .node, svg.highlight .edge { opacity: 0.18; }
+  svg.highlight .node.on, svg.highlight .edge.on { opacity: 1; }
+  .edge.on { stroke: var(--accent); stroke-width: 2.2; }
+  .node.on rect { stroke: var(--accent); stroke-width: 2; }
+  .hint { color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Fast-Layout</h1>
+</header>
+
+<main>
+  <section class="panel editor">
+    <textarea id="input" spellcheck="false" placeholder="AUSN0032&#9;AUSU4E01&#10;AUSU4E01&#9;AUSN0034"></textarea>
+    <div class="toolbar">
+      <button type="button" id="btn-example">Beispiel</button>
+      <button type="button" id="btn-clear">Leeren</button>
+      <span class="spacer"></span>
+      <label class="check"><input type="checkbox" id="opt-colors" checked> Stränge farbig</label>
+      <button type="button" id="btn-fit">Einpassen</button>
+      <button type="button" id="btn-zoom-in">+</button>
+      <button type="button" id="btn-zoom-out">−</button>
+      <button type="button" id="btn-svg">SVG speichern</button>
+    </div>
+  </section>
+
+  <div id="status"></div>
+
+  <section class="panel stage" id="stage"></section>
+
+  <p class="hint">
+Vorgänger-Nachfolger-Paare einfügen (ein Paar je Zeile, getrennt durch Tab, Leerzeichen, Komma oder <code>-&gt;</code>). Bei mehr als zwei Bezeichnern in einer Zeile zählen die beiden letzten. Die Grafik wird sofort neu gezeichnet.
+Die grauen Rahmenknoten <em>Start</em> und <em>End</em> werden automatisch ergänzt: Start vor alle Knoten ohne Vorgänger, End hinter alle Knoten ohne Nachfolger. Knoten anfahren hebt seine Kanten und Nachbarn hervor. Ziehen verschiebt, Mausrad zoomt. Gestrichelte rote Kanten sind Rückwärtskanten aus einem Zyklus; sie bleiben bei der Rasteranordnung unberücksichtigt. Kontakt: Adrian @ <a href="https://agnion.ai">agnion.ai</a>.</p>
+</main>
+
+<script>
+"use strict";
+
+const EXAMPLE = [
+  "AUSPSX13\tAUSPE002",
+  "AUSPE002\tAUSA0068",
+  "AUSA0068\tAUSR0068",
+  "AUSR0068\tAUSA0069",
+  "AUSA0069\tAUSR0069",
+  "AUSR0069\tAUSN0031",
+  "AUSN0031\tAUSN0032",
+  "AUSN0032\tAUSN0033",
+  "AUSN0033\tAUSN0034",
+  "AUSN0034\tAUSA0070",
+  "AUSA0070\tAUSR0070",
+  "AUSR0070\tAUSA0071",
+  "AUSA0071\tAUSR0071",
+  "AUSR0071\tAUSN0035",
+  "AUSN0035\tAUSN0036",
+  "AUSN0036\tAUSN0037",
+  "AUSN0037\tAUSN0038",
+  "AUSN0038\tAUSA0067",
+  "AUSA0067\tAUSR0067",
+  "AUSR0067\tAUSN0043",
+  "AUSN0043\tAUSA0072",
+  "AUSA0072\tAUSR0072",
+  "AUSR0072\tAUSN0051",
+  "AUSN0051\tAUSPE016",
+  "AUSPE016\tAUSN0052",
+  "AUSN0032\tAUSU4E01",
+  "AUSN0034\tAUSU4E02",
+  "AUSN0038\tAUSU4E03",
+  "AUSPE002\tAUSU4E04"
+].join("\n");
+
+const NODE_H = 32;
+const GAP_X = 56;
+const GAP_Y = 22;
+const PAD = 24;
+const CHAR_W = 7.3;
+const NODE_MIN_W = 76;
+const SVG_NS = "http://www.w3.org/2000/svg";
+const STORAGE_KEY = "js-layout-input";
+
+const PALETTE = [
+  "#2f6fd0", "#1f8a70", "#b9761f", "#8351b8",
+  "#c0563c", "#2b7f9e", "#7a8a1e", "#b4477f"
+];
+
+/* ---------------------------------------------------------------- Parsen */
+
+function parseInput(text) {
+  const nodes = [];
+  const nodeSet = new Set();
+  const edges = [];
+  const edgeSet = new Set();
+  const warnings = [];
+
+  const addNode = name => {
+    if (!nodeSet.has(name)) {
+      nodeSet.add(name);
+      nodes.push(name);
+    }
+  };
+
+  text.split(/\r?\n/).forEach((line, index) => {
+    const raw = line.trim();
+    if (!raw || raw.startsWith("#")) return;
+    const parts = raw.replace(/->|=>|→/g, " ").split(/[\s,;|]+/).filter(Boolean);
+    // Bei mehr als zwei Bezeichnern zählen nur die beiden letzten als Paar.
+    const [from, to] = parts.slice(-2);
+    addNode(from);
+    if (!to) return;
+    addNode(to);
+    if (from === to) {
+      warnings.push(`Zeile ${index + 1}: Selbstbezug „${from}“ wird ignoriert.`);
+      return;
+    }
+    const key = from + "\u0000" + to;
+    if (edgeSet.has(key)) return;
+    edgeSet.add(key);
+    edges.push([from, to]);
+  });
+
+  return { nodes, edges, warnings };
+}
+
+/* ---------------------------------------------------------------- Layout */
+
+/**
+ * Ergänzt die Rahmenknoten „Start“ und „End“: Start vor alle Knoten ohne Vorgänger,
+ * End hinter alle Knoten ohne Nachfolger (wie die Klammer eines Automic-Plans).
+ */
+function buildModel(graph) {
+  const back = findBackEdges(graph.nodes, graph.edges);
+  const hasPred = new Set();
+  const hasSucc = new Set();
+  graph.edges.forEach(([from, to], i) => {
+    if (back.has(i)) return; // Rückwärtskanten eines Zyklus zählen nicht als Vorgänger
+    hasSucc.add(from);
+    hasPred.add(to);
+  });
+
+  const taken = new Set(graph.nodes);
+  const unique = base => {
+    let name = base;
+    for (let i = 2; taken.has(name); i++) name = base + i;
+    taken.add(name);
+    return name;
+  };
+  const frame = { start: unique("Start"), end: unique("End") };
+
+  const edges = graph.edges.slice();
+  const firstFrameEdge = edges.length;
+  for (const node of graph.nodes) if (!hasPred.has(node)) edges.push([frame.start, node]);
+  for (const node of graph.nodes) if (!hasSucc.has(node)) edges.push([node, frame.end]);
+
+  return {
+    nodes: [frame.start, ...graph.nodes, frame.end],
+    edges,
+    back,
+    frame,
+    isFrame: name => name === frame.start || name === frame.end,
+    isFrameEdge: index => index >= firstFrameEdge,
+    user: graph
+  };
+}
+
+/** Rückwärtskanten eines Zyklus über iterative Tiefensuche bestimmen. */
+function findBackEdges(nodes, edges) {
+  const out = new Map(nodes.map(n => [n, []]));
+  edges.forEach(([from], i) => out.get(from).push(i));
+  const state = new Map(nodes.map(n => [n, 0]));
+  const back = new Set();
+
+  for (const start of nodes) {
+    if (state.get(start) !== 0) continue;
+    state.set(start, 1);
+    const stack = [{ node: start, next: 0 }];
+    while (stack.length) {
+      const top = stack[stack.length - 1];
+      const list = out.get(top.node);
+      if (top.next < list.length) {
+        const edge = list[top.next++];
+        const target = edges[edge][1];
+        const seen = state.get(target);
+        if (seen === 1) back.add(edge);
+        else if (seen === 0) {
+          state.set(target, 1);
+          stack.push({ node: target, next: 0 });
+        }
+      } else {
+        state.set(top.node, 2);
+        stack.pop();
+      }
+    }
+  }
+  return back;
+}
+
+/** Topologische Reihenfolge; `rank` bestimmt, welcher verfügbare Knoten zuerst kommt. */
+function topologicalOrder(nodes, preds, succs, rank) {
+  const missing = new Map(nodes.map(n => [n, preds.get(n).length]));
+  const ready = nodes.filter(n => missing.get(n) === 0);
+  const order = [];
+  while (ready.length) {
+    let best = 0;
+    for (let i = 1; i < ready.length; i++) {
+      if (rank(ready[i]) < rank(ready[best])) best = i;
+    }
+    const node = ready.splice(best, 1)[0];
+    order.push(node);
+    for (const s of succs.get(node)) {
+      missing.set(s, missing.get(s) - 1);
+      if (missing.get(s) === 0) ready.push(s);
+    }
+  }
+  return order;
+}
+
+/**
+ * Zerlegt den Graphen in waagerechte Ketten: die jeweils längste noch offene Kette
+ * zuerst, Zweige danach. Analog zur Automic-Anordnung in src/layout.py.
+ */
+function buildChains(order, succs, col, height, index) {
+  const used = new Set();
+  const chains = [];
+  for (const start of order) {
+    if (used.has(start)) continue;
+    used.add(start);
+    const chain = [start];
+    let current = start;
+    for (;;) {
+      const candidates = succs.get(current)
+        .filter(s => !used.has(s) && col.get(s) === col.get(current) + 1)
+        .sort((a, b) => (height.get(b) - height.get(a)) || (index.get(a) - index.get(b)));
+      if (!candidates.length) break;
+      current = candidates[0];
+      used.add(current);
+      chain.push(current);
+    }
+    chains.push(chain);
+  }
+  return chains;
+}
+
+/** Weakly connected components für die Färbung der Stränge. */
+function components(nodes, edges) {
+  const parent = new Map(nodes.map(n => [n, n]));
+  const find = n => {
+    while (parent.get(n) !== n) {
+      parent.set(n, parent.get(parent.get(n)));
+      n = parent.get(n);
+    }
+    return n;
+  };
+  for (const [from, to] of edges) {
+    const a = find(from);
+    const b = find(to);
+    if (a !== b) parent.set(a, b);
+  }
+  const ids = new Map();
+  const result = new Map();
+  for (const node of nodes) {
+    const root = find(node);
+    if (!ids.has(root)) ids.set(root, ids.size);
+    result.set(node, ids.get(root));
+  }
+  return result;
+}
+
+function layout(model) {
+  const { nodes, edges, back } = model;
+  const index = new Map(nodes.map((n, i) => [n, i]));
+
+  const preds = new Map(nodes.map(n => [n, []]));
+  const succs = new Map(nodes.map(n => [n, []]));
+  edges.forEach(([from, to], i) => {
+    if (back.has(i)) return;
+    succs.get(from).push(to);
+    preds.get(to).push(from);
+  });
+
+  // Spalte = längster Weg von einem Knoten ohne Vorgänger.
+  const plain = topologicalOrder(nodes, preds, succs, n => index.get(n));
+  const col = new Map();
+  for (const node of plain) {
+    const ps = preds.get(node);
+    col.set(node, ps.length ? Math.max(...ps.map(p => col.get(p))) + 1 : 0);
+  }
+
+  // Resthöhe = Länge der längsten noch folgenden Kette.
+  const height = new Map();
+  for (let i = plain.length - 1; i >= 0; i--) {
+    const node = plain[i];
+    height.set(node, 1 + Math.max(0, ...succs.get(node).map(s => height.get(s))));
+  }
+
+  const order = topologicalOrder(nodes, preds, succs, n => -height.get(n) * 1e6 + index.get(n));
+  const chains = buildChains(order, succs, col, height, index);
+
+  // Jede Kette belegt eine Zeile; bevorzugt die Zeile ihres Abzweigpunkts.
+  chains.sort((a, b) =>
+    (col.get(a[0]) - col.get(b[0])) ||
+    (b.length - a.length) ||
+    (index.get(a[0]) - index.get(b[0])));
+
+  const taken = new Set();
+  const row = new Map();
+  for (const chain of chains) {
+    const anchors = preds.get(chain[0]).filter(p => row.has(p));
+    let candidate = anchors.length ? Math.min(...anchors.map(p => row.get(p))) : 0;
+    while (chain.some(n => taken.has(col.get(n) + ":" + candidate))) candidate++;
+    for (const node of chain) {
+      row.set(node, candidate);
+      taken.add(col.get(node) + ":" + candidate);
+    }
+  }
+
+  // Leere Zeilen herausnehmen, damit das Raster dicht bleibt.
+  const usedRows = [...new Set(row.values())].sort((a, b) => a - b);
+  const compact = new Map(usedRows.map((r, i) => [r, i]));
+  for (const node of nodes) row.set(node, compact.get(row.get(node)));
+
+  return {
+    col, row, back, chains,
+    // Färbung nur über die eingegebenen Kanten, sonst verbindet der Rahmen alle Stränge.
+    component: components(model.user.nodes, model.user.edges),
+    cols: Math.max(0, ...nodes.map(n => col.get(n) + 1)),
+    rows: usedRows.length
+  };
+}
+
+/* --------------------------------------------------------------- Zeichnen */
+
+const stage = document.getElementById("stage");
+const statusLine = document.getElementById("status");
+const input = document.getElementById("input");
+const colorToggle = document.getElementById("opt-colors");
+
+let view = { x: 0, y: 0, w: 1000, h: 600 };
+let content = { w: 1000, h: 600 };
+let svg = null;
+
+function el(name, attrs, parent) {
+  const node = document.createElementNS(SVG_NS, name);
+  for (const key in attrs) node.setAttribute(key, attrs[key]);
+  if (parent) parent.appendChild(node);
+  return node;
+}
+
+function nodeWidth(name) {
+  return Math.max(NODE_MIN_W, Math.round(name.length * CHAR_W) + 22);
+}
+
+/** Geometrie je Knoten: Spaltenbreiten richten sich nach dem längsten Bezeichner. */
+function geometry(model, pos) {
+  const colWidth = new Array(pos.cols).fill(NODE_MIN_W);
+  for (const name of model.nodes) {
+    const c = pos.col.get(name);
+    colWidth[c] = Math.max(colWidth[c], nodeWidth(name));
+  }
+  const colX = [];
+  let x = PAD;
+  for (let c = 0; c < pos.cols; c++) {
+    colX.push(x);
+    x += colWidth[c] + GAP_X;
+  }
+  const boxes = new Map();
+  for (const name of model.nodes) {
+    const c = pos.col.get(name);
+    boxes.set(name, {
+      x: colX[c],
+      y: PAD + pos.row.get(name) * (NODE_H + GAP_Y),
+      w: colWidth[c],
+      h: NODE_H
+    });
+  }
+  return {
+    boxes,
+    width: Math.max(x - GAP_X + PAD, 200),
+    height: PAD * 2 + Math.max(pos.rows, 1) * (NODE_H + GAP_Y) - GAP_Y
+  };
+}
+
+function edgePath(a, b, isBack) {
+  if (isBack) {
+    const sx = a.x + a.w / 2;
+    const tx = b.x + b.w / 2;
+    const drop = Math.max(a.y, b.y) + NODE_H + Math.max(28, Math.abs(sx - tx) / 6);
+    return `M ${sx} ${a.y + a.h} C ${sx} ${drop}, ${tx} ${drop}, ${tx} ${b.y + b.h}`;
+  }
+  const x1 = a.x + a.w;
+  const y1 = a.y + a.h / 2;
+  const x2 = b.x;
+  const y2 = b.y + b.h / 2;
+  if (Math.abs(y1 - y2) < 0.5) return `M ${x1} ${y1} L ${x2} ${y2}`;
+  const dx = Math.max(24, (x2 - x1) / 2);
+  return `M ${x1} ${y1} C ${x1 + dx} ${y1}, ${x2 - dx} ${y2}, ${x2} ${y2}`;
+}
+
+function draw(model, pos) {
+  const geo = geometry(model, pos);
+  content = { w: geo.width, h: geo.height };
+
+  svg = el("svg", { xmlns: SVG_NS, "font-family": "Consolas, monospace" });
+  const defs = el("defs", {}, svg);
+  const colored = colorToggle.checked;
+
+  const addMarker = (id, color) => {
+    const marker = el("marker", {
+      id, viewBox: "0 0 10 10", refX: "9", refY: "5",
+      markerWidth: "7", markerHeight: "7", orient: "auto-start-reverse"
+    }, defs);
+    el("path", { d: "M 0 1 L 10 5 L 0 9 z", fill: color }, marker);
+  };
+  addMarker("arrow", "#7c8798");
+  addMarker("arrow-back", "#c0563c");
+  addMarker("arrow-hl", "#2f6fd0");
+  if (colored) PALETTE.forEach((color, i) => addMarker("arrow-c" + i, color));
+
+  const viewport = el("g", { id: "viewport" }, svg);
+  const edgeLayer = el("g", {}, viewport);
+  const nodeLayer = el("g", {}, viewport);
+
+  const colorOf = name => {
+    const component = pos.component.get(name);
+    return colored && component !== undefined ? PALETTE[component % PALETTE.length] : null;
+  };
+
+  model.edges.forEach(([from, to], i) => {
+    const isBack = pos.back.has(i);
+    const isFrame = model.isFrameEdge(i);
+    const color = isBack || isFrame ? null : colorOf(from);
+    const marker = isBack ? "arrow-back" : (color ? "arrow-c" + (pos.component.get(from) % PALETTE.length) : "arrow");
+    const path = el("path", {
+      class: "edge" + (isBack ? " back" : "") + (isFrame ? " frame" : ""),
+      d: edgePath(geo.boxes.get(from), geo.boxes.get(to), isBack),
+      "marker-end": `url(#${marker})`
+    }, edgeLayer);
+    if (color) path.setAttribute("stroke", color);
+    path.dataset.from = from;
+    path.dataset.to = to;
+    path.dataset.marker = `url(#${marker})`;
+  });
+
+  for (const name of model.nodes) {
+    const box = geo.boxes.get(name);
+    const frame = model.isFrame(name);
+    const group = el("g", { class: "node" + (frame ? " frame" : "") }, nodeLayer);
+    group.dataset.name = name;
+    const radius = frame ? 5 : NODE_H / 2;
+    const rect = el("rect", {
+      x: box.x, y: box.y, width: box.w, height: box.h, rx: radius, ry: radius
+    }, group);
+    const color = frame ? null : colorOf(name);
+    if (color) {
+      rect.setAttribute("stroke", color);
+      rect.setAttribute("fill", color + "14");
+    }
+    const text = el("text", { x: box.x + box.w / 2, y: box.y + box.h / 2 + 1 }, group);
+    text.textContent = name;
+  }
+
+  stage.textContent = "";
+  stage.appendChild(svg);
+  attachInteraction(model);
+  fitView();
+}
+
+/* ------------------------------------------------------- Zoom / Hervorheben */
+
+function applyView() {
+  if (svg) svg.setAttribute("viewBox", `${view.x} ${view.y} ${view.w} ${view.h}`);
+}
+
+function fitView() {
+  if (!svg) return;
+  const rect = stage.getBoundingClientRect();
+  const scale = Math.min(rect.width / content.w, rect.height / content.h, 1.6);
+  view.w = rect.width / scale;
+  view.h = rect.height / scale;
+  view.x = (content.w - view.w) / 2;
+  view.y = (content.h - view.h) / 2;
+  applyView();
+}
+
+function zoom(factor, cx, cy) {
+  if (!svg) return;
+  const px = cx === undefined ? view.x + view.w / 2 : cx;
+  const py = cy === undefined ? view.y + view.h / 2 : cy;
+  const w = Math.min(Math.max(view.w * factor, 120), content.w * 12);
+  const h = view.h * (w / view.w);
+  view.x = px - (px - view.x) * (w / view.w);
+  view.y = py - (py - view.y) * (h / view.h);
+  view.w = w;
+  view.h = h;
+  applyView();
+}
+
+function toSvgPoint(event) {
+  const rect = svg.getBoundingClientRect();
+  return {
+    x: view.x + (event.clientX - rect.left) / rect.width * view.w,
+    y: view.y + (event.clientY - rect.top) / rect.height * view.h
+  };
+}
+
+function attachInteraction(model) {
+  const neighbours = new Map(model.nodes.map(n => [n, new Set([n])]));
+  for (const [from, to] of model.edges) {
+    neighbours.get(from).add(to);
+    neighbours.get(to).add(from);
+  }
+
+  svg.querySelectorAll(".node").forEach(group => {
+    group.addEventListener("mouseenter", () => {
+      const name = group.dataset.name;
+      const related = neighbours.get(name);
+      svg.classList.add("highlight");
+      svg.querySelectorAll(".node").forEach(n =>
+        n.classList.toggle("on", related.has(n.dataset.name)));
+      svg.querySelectorAll(".edge").forEach(edge => {
+        const on = edge.dataset.from === name || edge.dataset.to === name;
+        edge.classList.toggle("on", on);
+        if (on && !edge.classList.contains("back")) edge.setAttribute("marker-end", "url(#arrow-hl)");
+      });
+    });
+    group.addEventListener("mouseleave", clearHighlight);
+  });
+
+  let drag = null;
+  svg.addEventListener("mousedown", event => {
+    if (event.button !== 0) return;
+    drag = { x: event.clientX, y: event.clientY, vx: view.x, vy: view.y };
+    svg.classList.add("dragging");
+  });
+  window.addEventListener("mousemove", event => {
+    if (!drag) return;
+    const rect = svg.getBoundingClientRect();
+    view.x = drag.vx - (event.clientX - drag.x) / rect.width * view.w;
+    view.y = drag.vy - (event.clientY - drag.y) / rect.height * view.h;
+    applyView();
+  });
+  window.addEventListener("mouseup", () => {
+    drag = null;
+    if (svg) svg.classList.remove("dragging");
+  });
+  svg.addEventListener("wheel", event => {
+    event.preventDefault();
+    const point = toSvgPoint(event);
+    zoom(event.deltaY > 0 ? 1.12 : 1 / 1.12, point.x, point.y);
+  }, { passive: false });
+}
+
+function clearHighlight() {
+  if (!svg) return;
+  svg.classList.remove("highlight");
+  svg.querySelectorAll(".on").forEach(node => node.classList.remove("on"));
+  svg.querySelectorAll(".edge").forEach(edge => {
+    edge.setAttribute("marker-end", edge.dataset.marker || "url(#arrow)");
+  });
+}
+
+/* ----------------------------------------------------------------- Ablauf */
+
+function render() {
+  const text = input.value;
+  try {
+    localStorage.setItem(STORAGE_KEY, text);
+  } catch (error) { /* privater Modus: Speichern ist optional */ }
+
+  const graph = parseInput(text);
+  if (!graph.nodes.length) {
+    svg = null;
+    stage.textContent = "";
+    statusLine.textContent = "Keine Eingabe.";
+    return;
+  }
+
+  const model = buildModel(graph);
+  const pos = layout(model);
+  draw(model, pos);
+
+  const parts = [
+    `${graph.nodes.length} Knoten, ${graph.edges.length} Kanten (zzgl. Start/End), ` +
+    `${pos.cols} Spalten × ${pos.rows} Zeilen, ${pos.chains.length} Stränge.`
+  ];
+  if (pos.back.size) {
+    parts.push(`Zyklus erkannt: ${pos.back.size} Rückwärtskante(n) gestrichelt dargestellt.`);
+  }
+  graph.warnings.forEach(warning => parts.push(warning));
+  statusLine.innerHTML = parts
+    .map((line, i) => i === 0 ? escapeHtml(line) : `<span class="warn">${escapeHtml(line)}</span>`)
+    .join("\n");
+}
+
+function escapeHtml(text) {
+  return text.replace(/[&<>]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[ch]);
+}
+
+function downloadSvg() {
+  if (!svg) return;
+  const clone = svg.cloneNode(true);
+  clone.setAttribute("viewBox", `0 0 ${content.w} ${content.h}`);
+  clone.setAttribute("width", content.w);
+  clone.setAttribute("height", content.h);
+  clone.classList.remove("highlight");
+  const style = document.createElementNS(SVG_NS, "style");
+  style.textContent = `
+    .node rect { fill: #fff; stroke: #55617a; stroke-width: 1.25; }
+    .node text { font: 12px Consolas, monospace; fill: #1c2330; dominant-baseline: middle; text-anchor: middle; }
+    .edge { fill: none; stroke: #7c8798; stroke-width: 1.4; }
+    .edge.back { stroke: #c0563c; stroke-dasharray: 5 4; }
+    .node.frame rect { fill: #e7eaef; stroke: #8b95a5; }
+    .node.frame text { font-weight: 600; fill: #46505f; }`;
+  clone.insertBefore(style, clone.firstChild);
+  const blob = new Blob(
+    ['<?xml version="1.0" encoding="UTF-8"?>\n', new XMLSerializer().serializeToString(clone)],
+    { type: "image/svg+xml" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "js-layout.svg";
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+let timer = null;
+input.addEventListener("input", () => {
+  clearTimeout(timer);
+  timer = setTimeout(render, 150);
+});
+colorToggle.addEventListener("change", render);
+document.getElementById("btn-example").addEventListener("click", () => {
+  input.value = EXAMPLE;
+  render();
+});
+document.getElementById("btn-clear").addEventListener("click", () => {
+  input.value = "";
+  render();
+  input.focus();
+});
+document.getElementById("btn-fit").addEventListener("click", fitView);
+document.getElementById("btn-zoom-in").addEventListener("click", () => zoom(1 / 1.25));
+document.getElementById("btn-zoom-out").addEventListener("click", () => zoom(1.25));
+document.getElementById("btn-svg").addEventListener("click", downloadSvg);
+window.addEventListener("resize", fitView);
+
+let stored = null;
+try {
+  stored = localStorage.getItem(STORAGE_KEY);
+} catch (error) { /* ohne localStorage startet die Seite mit dem Beispiel */ }
+input.value = stored === null ? EXAMPLE : stored;
+render();
+</script>
+</body>
+</html>
