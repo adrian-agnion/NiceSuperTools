@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AutomicLens</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Roboto+Condensed:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="viewer.css">
+</head>
+
+<body>
+
+  <main>
+    <div class="lang">
+      <button type="button" class="lang-btn" id="lang-de">DE</button>
+      <button type="button" class="lang-btn" id="lang-en">EN</button>
+    </div>
+
+    <h1>AutomicLens</h1>
+    <p class="subtitle" data-i18n="subtitle"></p>
+
+    <div class="dropzone" id="dropzone" data-i18n="dropHint"></div>
+
+    <div class="options">
+      <label class="check"><input type="checkbox" id="opt-prefix"><span data-i18n="prefix"></span></label>
+    </div>
+
+    <p id="status" class="pre"></p>
+
+    <h2 class="graph-head">
+      <span data-i18n="graph"></span>
+      <span class="count" id="graph-count"></span>
+      <span class="tools">
+        <button type="button" id="btn-fit" data-i18n="fit" disabled></button>
+        <button type="button" id="btn-zoom-in" disabled>+</button>
+        <button type="button" id="btn-zoom-out" disabled>−</button>
+      </span>
+    </h2>
+    <div id="stage"></div>
+
+    <h2><span data-i18n="names"></span> <span class="count" id="names-count"></span></h2>
+    <table id="names-table">
+      <thead><tr>
+        <th>Lnr</th>
+        <th data-i18n="thType"></th>
+        <th data-i18n="thObject"></th>
+        <th data-i18n="thTitle"></th>
+        <th>Row</th>
+        <th>Col</th>
+      </tr></thead>
+      <tbody id="names-body"><tr><td>—</td></tr></tbody>
+    </table>
+
+    <h2><span data-i18n="pairs"></span> <span class="count" id="pairs-count"></span></h2>
+    <pre id="pairs-pre">—</pre>
+
+    <h2><span data-i18n="code"></span> <span class="count" id="code-count"></span></h2>
+    <pre id="code-pre"><code>—</code></pre>
+
+    <p class="hint" data-i18n-html="hint"></p>
+  </main>
+
+  <script src="../js/dropzone.js"></script>
+  <script src="viewer.js"></script>
+
+</body>
+</html>
