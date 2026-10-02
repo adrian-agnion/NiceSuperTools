@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8">
+  <title>MesseMuffel</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Roboto+Condensed:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 15px 0 25px;
+    }
+
+    .controls label {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.85rem;
+      font-weight: bold;
+      gap: 4px;
+    }
+
+    .controls input,
+    .controls select {
+      font: inherit;
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    ul#months {
+      padding-left: 20px;
+      margin: 0;
+    }
+
+    ul#months li {
+      padding: 4px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main>
+    <h1>MesseMuffel</h1>
+
+    <p>Links zu kommenden Messeterminen.</p>
+
+    <div class="controls">
+      <label>Standort
+        <input type="text" id="city" value="Köln">
+      </label>
+      <label>Monat
+        <select id="month"></select>
+      </label>
+      <label>Jahr
+        <select id="year"></select>
+      </label>
+    </div>
+
+    <p><a href="https://www.koelnmesse.de/aktuelle-termine/alle-messen/" target="_blank"
+        rel="noopener">koelnmesse.de – Alle Messen</a></p>
+
+    <ul id="months"></ul>
+  </main>
+
+  <script>
+    const MONTH_NAMES = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+      'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+    const DEFAULT_CITY = 'Köln';
+
+    const cityInput = document.getElementById('city');
+    const monthSelect = document.getElementById('month');
+    const yearSelect = document.getElementById('year');
+    const list = document.getElementById('months');
+
+    function aumaUrl(year, month, city) {
+      const params = new URLSearchParams({
+        intFilterYearFrom: year,
+        intFilterYearTo: year,
+        intFilterMonthFrom: month,
+        intFilterMonthTo: month,
+        strLanguage: 'de',
+        intSort: '1',
+        intSeitenZahl: '1',
+        strFilterCity: city
+      });
+      return 'https://www.auma.de/messen-finden/?' + params.toString();
+    }
+
+    function render() {
+      const city = cityInput.value.trim() || DEFAULT_CITY;
+      const startMonth = parseInt(monthSelect.value, 10);
+      const startYear = parseInt(yearSelect.value, 10);
+
+      list.innerHTML = '';
+      for (let i = 0; i < 6; i++) {
+        const date = new Date(startYear, startMonth - 1 + i, 1);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+
+        const a = document.createElement('a');
+        a.href = aumaUrl(year, month, city);
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = 'AUMA Messen ' + MONTH_NAMES[month - 1] + ' ' + year;
+
+        const li = document.createElement('li');
+        li.appendChild(a);
+        list.appendChild(li);
+      }
+    }
+
+    // Selects befüllen; aktueller Monat im aktuellen Jahr ist vorselektiert.
+    const now = new Date();
+    MONTH_NAMES.forEach((name, index) => {
+      const option = document.createElement('option');
+      option.value = index + 1;
+      option.textContent = name;
+      monthSelect.appendChild(option);
+    });
+    monthSelect.value = now.getMonth() + 1;
+
+    for (let year = now.getFullYear(); year <= now.getFullYear() + 3; year++) {
+      const option = document.createElement('option');
+      option.value = year;
+      option.textContent = year;
+      yearSelect.appendChild(option);
+    }
+    yearSelect.value = now.getFullYear();
+
+    cityInput.addEventListener('input', render);
+    monthSelect.addEventListener('change', render);
+    yearSelect.addEventListener('change', render);
+    render();
+  </script>
+
+</body>
+
+</html>
