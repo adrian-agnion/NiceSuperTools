@@ -1,0 +1,308 @@
+[
+  {
+    "periodStart": "2026-10-13",
+    "periodEnd": "2026-10-15",
+    "title": "HärtereiKongress",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2026-10-15",
+    "periodEnd": "2026-10-16",
+    "title": "Franchise NEXT Köln",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2026-10-27",
+    "periodEnd": "2026-10-30",
+    "title": "ORGATEC",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2026-10-27",
+    "periodEnd": "2026-10-30",
+    "title": "ORGATEC - Internationale Leitmesse für Workspace und Contract Solutions",
+    "numberOfVisitors": 50061,
+    "numberOfPresenters": 738,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_orgatec_227837"
+  },
+  {
+    "periodStart": "2026-10-30",
+    "periodEnd": "2026-10-31",
+    "title": "idd cologne",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2026-11-05",
+    "periodEnd": "2026-11-08",
+    "title": "ART COLOGNE",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2026-11-05",
+    "periodEnd": "2026-11-08",
+    "title": "ART COLOGNE - Internationaler Kunstmarkt",
+    "numberOfVisitors": 46809,
+    "numberOfPresenters": 194,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_art-cologne_229254"
+  },
+  {
+    "periodStart": "2026-11-06",
+    "periodEnd": "2026-11-07",
+    "title": "Europäische Taximesse",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2026-11-09",
+    "periodEnd": "2026-11-11",
+    "title": "BIO Europe 2026",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2026-11-09",
+    "periodEnd": "2026-11-11",
+    "title": "BIO-EUROPE - Biotechnology Conference and Exhibition",
+    "numberOfVisitors": 5700,
+    "numberOfPresenters": 263,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_biotechnology-conference-and-exhibition_229806"
+  },
+  {
+    "periodStart": "2026-11-11",
+    "periodEnd": "2026-11-12",
+    "title": "PMREXPO - Europäische Leitmesse für sichere Kommunikation",
+    "numberOfVisitors": 5447,
+    "numberOfPresenters": 265,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_pmrexpo_229422"
+  },
+  {
+    "periodStart": "2026-11-11",
+    "periodEnd": "2026-11-12",
+    "title": "PMW Expo",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2026-11-17",
+    "periodEnd": "2026-11-19",
+    "title": "Power Transmission & Distribution Technology EXPO",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2026-11-24",
+    "periodEnd": "2026-11-26",
+    "title": "PMRExpo",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2026-12-02",
+    "periodEnd": "2026-12-03",
+    "title": "VdS-BrandSchutzTage - Fachmesse und Fachtagungen zum vorbeugenden Brandschutz",
+    "numberOfVisitors": 5240,
+    "numberOfPresenters": 180,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_vds-brandschutztage_229100"
+  },
+  {
+    "periodStart": "2027-01-12",
+    "periodEnd": "2027-01-14",
+    "title": "PSI",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-01-12",
+    "periodEnd": "2027-01-14",
+    "title": "PSI - Die europäische Leitmesse für Werbeartikel, Incentives und Merchandising",
+    "numberOfVisitors": 9814,
+    "numberOfPresenters": 504,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_psi_232850"
+  },
+  {
+    "periodStart": "2027-01-19",
+    "periodEnd": "2027-01-22",
+    "title": "imm cologne",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-01-19",
+    "periodEnd": "2027-01-22",
+    "title": "imm cologne - The interior business event",
+    "numberOfVisitors": 10167,
+    "numberOfPresenters": 339,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_imm-cologne_233260"
+  },
+  {
+    "periodStart": "2027-01-30",
+    "periodEnd": "2027-02-01",
+    "title": "spoga dog powered by ZZF 2027",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-01-30",
+    "periodEnd": "2027-02-01",
+    "title": "spoga horse",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-01-30",
+    "periodEnd": "2027-02-01",
+    "title": "spoga horse - Die B2B Leitmesse für die weltweite Pferdebranche",
+    "numberOfVisitors": 9020,
+    "numberOfPresenters": 457,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_spoga-horse_233286"
+  },
+  {
+    "periodStart": "2027-01-31",
+    "periodEnd": "2027-02-03",
+    "title": "ISM",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-01-31",
+    "periodEnd": "2027-02-03",
+    "title": "ISM Snacks & Sweets / ISM Ingredients / ISM Manufacturing - Weltweit führende Fachmesse für Süßwaren & Sweets",
+    "numberOfVisitors": 32473,
+    "numberOfPresenters": 1567,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koeln_ism-snacks-sweets-ism-ingredients-ism-manu_233356"
+  },
+  {
+    "periodStart": "2027-02-12",
+    "periodEnd": "2027-02-13",
+    "title": "Einstieg Köln",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-02-19",
+    "periodEnd": "2027-02-21",
+    "title": "INTERMOT KÖLN - Internationale Motorrad- und Roller-Messe",
+    "numberOfVisitors": 80000,
+    "numberOfPresenters": 138,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_intermot-koln_233441"
+  },
+  {
+    "periodStart": "2027-02-19",
+    "periodEnd": "2027-02-21",
+    "title": "INTERMOT Köln",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-02-19",
+    "periodEnd": "2027-02-21",
+    "title": "gamescom lan",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-02-23",
+    "periodEnd": "2027-02-26",
+    "title": "ANUGA FOODTEC - Internationale Zuliefermesse für die Lebensmittel- und Getränkeindustrie",
+    "numberOfVisitors": 38220,
+    "numberOfPresenters": 1297,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_anuga-foodtec_227964"
+  },
+  {
+    "periodStart": "2027-02-23",
+    "periodEnd": "2027-02-26",
+    "title": "Anuga FoodTec",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-03-09",
+    "periodEnd": "2027-03-11",
+    "title": "Asia-Pacific Sourcing",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-03-09",
+    "periodEnd": "2027-03-11",
+    "title": "Asia-Pacific Sourcing - Werkzeuge und Produkte für Haus und Garten aus Fernost",
+    "numberOfVisitors": 5518,
+    "numberOfPresenters": 798,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_asia-pacific-sourcing_229191"
+  },
+  {
+    "periodStart": "2027-03-16",
+    "periodEnd": "2027-03-20",
+    "title": "IDS",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-03-16",
+    "periodEnd": "2027-03-20",
+    "title": "IDS - Internationale Dental-Schau",
+    "numberOfVisitors": 135267,
+    "numberOfPresenters": 2010,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_ids_229045"
+  }
+]
