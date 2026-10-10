@@ -80,7 +80,7 @@
   <main>
     <h1>MesseMuffel</h1>
 
-    <h2>Messetermine</h2>
+    <h2>Messetermine finden</h2>
 
     <div class="controls">
       <label>Standort
@@ -112,6 +112,7 @@
     const monthSelect = document.getElementById('month');
     const yearSelect = document.getElementById('year');
     const list = document.getElementById('months');
+    let occupancy = null;
 
     function aumaUrl(year, month, city) {
       const params = new URLSearchParams({
@@ -149,6 +150,8 @@
         li.appendChild(a);
         list.appendChild(li);
       }
+
+      if (occupancy) renderSuggestions(occupancy);
     }
 
     // Selects befüllen; aktueller Monat im aktuellen Jahr ist vorselektiert.
@@ -201,7 +204,23 @@
     }
 
     function renderSuggestions(data) {
-      const keys = Object.keys(data).sort();
+      suggestions.textContent = '';
+
+      // Nur die 6 Monate ab dem im Formular gewählten Monat anzeigen.
+      const start = new Date(parseInt(yearSelect.value, 10),
+        parseInt(monthSelect.value, 10) - 1, 1);
+      const end = new Date(start.getFullYear(), start.getMonth() + 6, 0);
+      const filtered = {};
+      for (const [iso, level] of Object.entries(data)) {
+        const day = new Date(iso + 'T00:00:00');
+        if (day >= start && day <= end) filtered[iso] = level;
+      }
+
+      const keys = Object.keys(filtered).sort();
+      if (!keys.length) {
+        suggestions.textContent = 'Keine Daten verfügbar.';
+        return;
+      }
       const present = new Set(keys);
       const first = new Date(keys[0] + 'T00:00:00');
       const last = new Date(keys[keys.length - 1] + 'T00:00:00');
@@ -237,7 +256,7 @@
             box.href = bookingUrl(weekDays[i]);
             box.target = '_blank';
             box.rel = 'noopener';
-            box.style.background = LEVEL_COLORS[data[iso]];
+            box.style.background = LEVEL_COLORS[filtered[iso]];
             box.title = iso;
 
             const weekday = document.createElement('span');
@@ -262,7 +281,10 @@
         if (!response.ok) throw new Error('HTTP ' + response.status);
         return response.json();
       })
-      .then(renderSuggestions)
+      .then(data => {
+        occupancy = data;
+        renderSuggestions(occupancy);
+      })
       .catch(() => {
         suggestions.textContent = 'Keine Daten verfügbar.';
       });
