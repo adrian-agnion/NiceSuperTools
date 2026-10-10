@@ -1,0 +1,38 @@
+[
+  {
+    "periodStart": "2027-01-29",
+    "periodEnd": "2027-01-31",
+    "title": "BAREFooT - EUROPEAN SHOE FAIR",
+    "numberOfVisitors": 1971,
+    "numberOfPresenters": 100,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=offenbach_barefoot_233328"
+  },
+  {
+    "periodStart": "2027-02-13",
+    "periodEnd": "2027-02-15",
+    "title": "ILM #165 - International Leather Goods Fair",
+    "numberOfVisitors": 2007,
+    "numberOfPresenters": 176,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=offenbach_ilm-165_236609"
+  },
+  {
+    "periodStart": "2027-07-23",
+    "periodEnd": "2027-07-25",
+    "title": "BAREFOOT - EUROPEAN SHOE FAIR",
+    "numberOfVisitors": 1971,
+    "numberOfPresenters": 100,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=offenbach_barefoot_236608"
+  },
+  {
+    "periodStart": "2027-09-04",
+    "periodEnd": "2027-09-06",
+    "title": "ILM #166 - International Leather Goods Fair",
+    "numberOfVisitors": 2007,
+    "numberOfPresenters": 176,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=offenbach_ilm-166_236610"
+  }
+]

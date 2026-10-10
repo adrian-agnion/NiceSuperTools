@@ -1,0 +1,128 @@
+[
+  {
+    "periodStart": "2026-10-07",
+    "periodEnd": "2026-10-11",
+    "title": "Frankfurter Buchmesse - Frankfurt Book Fair",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=frankfurt-am-main_frankfurter-buchmesse_229017"
+  },
+  {
+    "periodStart": "2026-11-06",
+    "periodEnd": "2026-11-07",
+    "title": "infotage FACHDENTAL Frankfurt - Die wichtigste Fachmesse für Zahnmedizin und Zahntechnik in der Region",
+    "numberOfVisitors": 2384,
+    "numberOfPresenters": 119,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=frankfurt-am-main_infotage-fachdental-frankfurt_229047"
+  },
+  {
+    "periodStart": "2026-11-17",
+    "periodEnd": "2026-11-20",
+    "title": "Formnext - International exhibition and convention on the next generation of manufacturing technologies",
+    "numberOfVisitors": 38282,
+    "numberOfPresenters": 804,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=frankfurt-am-main_formnext_229483"
+  },
+  {
+    "periodStart": "2027-01-12",
+    "periodEnd": "2027-01-15",
+    "title": "Heimtextil - Internationale Fachmesse für Wohn- und Objekttextilien",
+    "numberOfVisitors": 48507,
+    "numberOfPresenters": 2915,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=frankfurt-am-main_heimtextil_233117"
+  },
+  {
+    "periodStart": "2027-01-29",
+    "periodEnd": "2027-02-02",
+    "title": "Ambiente - Internationale Leitmesse für die Konsumgüterbranche",
+    "numberOfVisitors": 95503,
+    "numberOfPresenters": 3703,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=frankfurt-am-main_ambiente_233132"
+  },
+  {
+    "periodStart": "2027-01-29",
+    "periodEnd": "2027-02-02",
+    "title": "Christmasworld - Internationale Leitmesse für saisonale Dekoration und Festschmuck",
+    "numberOfVisitors": 35598,
+    "numberOfPresenters": 664,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=frankfurt-am-main_christmasworld_233106"
+  },
+  {
+    "periodStart": "2027-01-29",
+    "periodEnd": "2027-02-01",
+    "title": "Creativeworld - Internationale Fachmesse für den Hobby-, Bastel- und Künstlerbedarf",
+    "numberOfVisitors": 7063,
+    "numberOfPresenters": 273,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=frankfurt-am-main_creativeworld_233125"
+  },
+  {
+    "periodStart": "2027-03-13",
+    "periodEnd": "2027-03-14",
+    "title": "VEGGIEWORLD FRANKFURT - Die Messe für den veganen Lebensstil",
+    "numberOfVisitors": 2124,
+    "numberOfPresenters": 76,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=frankfurt-am-main_veggieworld-frankfurt_233070"
+  },
+  {
+    "periodStart": "2027-03-15",
+    "periodEnd": "2027-03-19",
+    "title": "ISH - Weltleitmesse für Wasser, Wärme, Luft",
+    "numberOfVisitors": 163237,
+    "numberOfPresenters": 2183,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=frankfurt-am-main_ish_229377"
+  },
+  {
+    "periodStart": "2027-06-14",
+    "periodEnd": "2027-06-18",
+    "title": "ACHEMA - Weltforum und Internationale Leitmesse der Prozessindustrie",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=frankfurt-am-main_achema_227845"
+  },
+  {
+    "periodStart": "2027-06-30",
+    "periodEnd": "2027-07-02",
+    "title": "EUROBIKE - Internationale Fahrradmesse",
+    "numberOfVisitors": 24100,
+    "numberOfPresenters": 759,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=frankfurt-am-main_eurobike-internationale-fahrradmesse_233439"
+  },
+  {
+    "periodStart": "2027-10-06",
+    "periodEnd": "2027-10-10",
+    "title": "FRANKFURTER BUCHMESSE - Frankfurt Book Fair",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=frankfurt-am-main_frankfurter-buchmesse_232971"
+  },
+  {
+    "periodStart": "2027-10-12",
+    "periodEnd": "2027-10-14",
+    "title": "INTERGEO - WISSEN UND HANDELN FÜR DIE ERDE",
+    "numberOfVisitors": 18678,
+    "numberOfPresenters": 498,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=frankfurt-am-main_intergeo_228842"
+  },
+  {
+    "periodStart": "2027-10-26",
+    "periodEnd": "2027-10-29",
+    "title": "Formnext - International exhibition and convention on the next generation of manufacturing technologies",
+    "numberOfVisitors": 38282,
+    "numberOfPresenters": 804,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=frankfurt-am-main_formnext_233428"
+  }
+]

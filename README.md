@@ -9,3 +9,9 @@
 
 - Web: <https://adibaba.github.io/NiceSuperTools>
 - Code: <https://github.com/adibaba/NiceSuperTools>
+
+## Lokaler Test
+
+```bash
+python -m http.server 8000
+```

@@ -1,0 +1,236 @@
+[
+  {
+    "periodStart": "2026-10-05",
+    "periodEnd": "2026-10-07",
+    "title": "EXPO REAL - Internationale Fachmesse für Immobilien und Investitionen",
+    "numberOfVisitors": 41737,
+    "numberOfPresenters": 1743,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_expo-real_229195"
+  },
+  {
+    "periodStart": "2026-10-15",
+    "periodEnd": "2026-10-18",
+    "title": "INTERFORST - Internationale Leitmesse für Forstwirtschaft und Forsttechnik mit wissenschaftlichen Veranstaltungen und Sonderschauen",
+    "numberOfVisitors": 31006,
+    "numberOfPresenters": 350,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_interforst_212354"
+  },
+  {
+    "periodStart": "2026-10-20",
+    "periodEnd": "2026-10-21",
+    "title": "PERSONALMESSE - Fachmesse für Recruiting, Personalmanagement und Personalentwicklung",
+    "numberOfVisitors": 1954,
+    "numberOfPresenters": 78,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_personalmesse_229033"
+  },
+  {
+    "periodStart": "2026-11-07",
+    "periodEnd": "2026-11-08",
+    "title": "VeggieWorld München - Die Messe für den veganen Lebensstil",
+    "numberOfVisitors": 7070,
+    "numberOfPresenters": 73,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_veggieworld-munchen_229129"
+  },
+  {
+    "periodStart": "2026-11-10",
+    "periodEnd": "2026-11-13",
+    "title": "electronica - Komponenten, Systeme, Anwendung und Lösungen - Weltleitmesse und Konferenz der Elektronik (mit Parallelveranstaltung SEMICON Europa)",
+    "numberOfVisitors": 80203,
+    "numberOfPresenters": 3486,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_electronica_227892"
+  },
+  {
+    "periodStart": "2026-11-25",
+    "periodEnd": "2026-11-29",
+    "title": "HEIM+HANDWERK - Die Messe für Wohnträume zum Erleben & Kaufen gemeinsam mit FOOD & LIFE - Der Treffpunkt für Essen, Trinken und Genießen",
+    "numberOfVisitors": 90000,
+    "numberOfPresenters": 785,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_heim-handwerk_228933"
+  },
+  {
+    "periodStart": "2027-01-11",
+    "periodEnd": "2027-01-15",
+    "title": "BAU - Weltleitmesse für Architektur, Materialien, Systeme",
+    "numberOfVisitors": 186038,
+    "numberOfPresenters": 2244,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_bau_228999"
+  },
+  {
+    "periodStart": "2027-01-29",
+    "periodEnd": "2027-01-31",
+    "title": "opti - Die internationale Messe für Optik & Design",
+    "numberOfVisitors": 21105,
+    "numberOfPresenters": 330,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_opti_233277"
+  },
+  {
+    "periodStart": "2027-02-10",
+    "periodEnd": "2027-02-14",
+    "title": "f.re.e - Die Reise- und Freizeitmesse.",
+    "numberOfVisitors": 136033,
+    "numberOfPresenters": 939,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_f-re-e_233086"
+  },
+  {
+    "periodStart": "2027-02-19",
+    "periodEnd": "2027-02-22",
+    "title": "INHORGENTA MUNICH - Internationale Fachmesse für Schmuck, Uhren, Design, Edelsteine und Technologie",
+    "numberOfVisitors": 25208,
+    "numberOfPresenters": 859,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_inhorgenta-munich_233327"
+  },
+  {
+    "periodStart": "2027-03-03",
+    "periodEnd": "2027-03-04",
+    "title": "LOPEC - Weltweit führende Fachmesse und Konferenz für flexible und gedruckte Elektronik",
+    "numberOfVisitors": 2500,
+    "numberOfPresenters": 158,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_lopec_233018"
+  },
+  {
+    "periodStart": "2027-03-09",
+    "periodEnd": "2027-03-11",
+    "title": "CCE International - Internationale Fachmesse für die Wellpappen- und Faltschachtelindustrie",
+    "numberOfVisitors": 553,
+    "numberOfPresenters": 82,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_cce-international_229060"
+  },
+  {
+    "periodStart": "2027-03-09",
+    "periodEnd": "2027-03-11",
+    "title": "ICE Europe - Internationale Leitmesse für die Veredelung und Verarbeitung von Papier, Film und Folie",
+    "numberOfVisitors": 3602,
+    "numberOfPresenters": 287,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_ice-europe_229338"
+  },
+  {
+    "periodStart": "2027-03-10",
+    "periodEnd": "2027-03-14",
+    "title": "INTERNATIONALE HANDWERKSMESSE - Ihre Messe fürs Bauen, Sanieren, Modernisieren mit FOOD & LIFE, HANDWERK & DESIGN, GARTEN MÜNCHEN",
+    "numberOfVisitors": 85055,
+    "numberOfPresenters": 848,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_internationale-handwerksmesse_233113"
+  },
+  {
+    "periodStart": "2027-04-13",
+    "periodEnd": "2027-04-15",
+    "title": "DMEA - Connecting Digital Health",
+    "numberOfVisitors": 21951,
+    "numberOfPresenters": 859,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_dmea_233232"
+  },
+  {
+    "periodStart": "2027-04-26",
+    "periodEnd": "2027-04-29",
+    "title": "transport logistic / air cargo Europe - Internationale Fachmesse für Logistik, Mobilität, IT und Supply Chain Management",
+    "numberOfVisitors": 77626,
+    "numberOfPresenters": 2719,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_transport-logistic-air-cargo-europe_229432"
+  },
+  {
+    "periodStart": "2027-06-08",
+    "periodEnd": "2027-06-10",
+    "title": "The smarter E Europe - Europas größte Messeallianz für die Energiewirtschaft vereint die vier Fachmessen Intersolar Europe, ees Europe, Power2Drive Europe und EM-Power Europe",
+    "numberOfVisitors": 105263,
+    "numberOfPresenters": 2650,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_the-smarter-e-europe_228837"
+  },
+  {
+    "periodStart": "2027-06-22",
+    "periodEnd": "2027-06-25",
+    "title": "Laser World of Photonics - Weltleitmesse und Kongress für Komponenten, Systeme und Anwendungen der Optischen Technologien",
+    "numberOfVisitors": 44854,
+    "numberOfPresenters": 1393,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_laser-world-of-photonics_229263"
+  },
+  {
+    "periodStart": "2027-06-22",
+    "periodEnd": "2027-06-25",
+    "title": "World of Quantum - Internationale Fachmesse für Quantentechnologien",
+    "numberOfVisitors": 24232,
+    "numberOfPresenters": 160,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_world-of-quantum_228960"
+  },
+  {
+    "periodStart": "2027-06-22",
+    "periodEnd": "2027-06-25",
+    "title": "automatica - The Leading Exhibition for Smart Automation and Robotics",
+    "numberOfVisitors": 49284,
+    "numberOfPresenters": 798,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_automatica_229372"
+  },
+  {
+    "periodStart": "2027-06-30",
+    "periodEnd": "2027-07-01",
+    "title": "SICHERHEITSEXPO MÜNCHEN - Die Fachmesse für Zutrittskontrolle, Videoüberwachung, Brandschutz, Perimeter Protection und IT-Security",
+    "numberOfVisitors": 3089,
+    "numberOfPresenters": 121,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_sicherheitsexpo-munchen-die-fachmesse-fur_233336"
+  },
+  {
+    "periodStart": "2027-09-07",
+    "periodEnd": "2027-09-12",
+    "title": "IAA MOBILITY",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_iaa-mobility_228963"
+  },
+  {
+    "periodStart": "2027-10-12",
+    "periodEnd": "2027-10-14",
+    "title": "inter airport Europe - Internationale Fachmesse für Flughafen-Ausrüstung, Technologie, Design und Service",
+    "numberOfVisitors": 5836,
+    "numberOfPresenters": 375,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_inter-airport-europe_229114"
+  },
+  {
+    "periodStart": "2027-10-24",
+    "periodEnd": "2027-10-28",
+    "title": "iba - Die führende Weltmesse für Bäckerei, Konditorei und Snacks",
+    "numberOfVisitors": 49115,
+    "numberOfPresenters": 985,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_iba_228978"
+  },
+  {
+    "periodStart": "2027-11-16",
+    "periodEnd": "2027-11-19",
+    "title": "productronica - Weltleitmesse für Entwicklung und Fertigung von Elektronik (mit Parallelveranstaltung SEMICON Europa)",
+    "numberOfVisitors": 47696,
+    "numberOfPresenters": 1686,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_productronica_229267"
+  },
+  {
+    "periodStart": "2027-12-01",
+    "periodEnd": "2027-12-05",
+    "title": "HEIM+HANDWERK - Die Messe für Wohnträume zum Erleben & Kaufen gemeinsam mit FOOD & LIFE - Der Treffpunkt für Essen, Trinken und Genießen",
+    "numberOfVisitors": 90000,
+    "numberOfPresenters": 785,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=munchen_heim-handwerk_233400"
+  }
+]

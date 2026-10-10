@@ -9,6 +9,25 @@
     rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <style>
+    .lang {
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    .lang button {
+      padding: 4px 10px;
+    }
+
+    .lang button.active {
+      font-weight: bold;
+      background: #145a78;
+    }
+
+    #info span {
+      display: block;
+    }
+
     .controls {
       display: flex;
       flex-wrap: wrap;
@@ -33,16 +52,13 @@
       background: #fff;
     }
 
-    ul#months {
-      padding-left: 20px;
-      margin: 0;
+    .calnav {
+      display: block;
+      margin: 6px auto;
+      padding: 4px 16px;
     }
 
-    ul#months li {
-      padding: 4px 0;
-    }
-
-    #suggestions h3 {
+    #calendar h3 {
       margin: 18px 0 6px;
     }
 
@@ -72,222 +88,409 @@
     .day .date {
       font-weight: bold;
     }
+
+    .day.weekend {
+      opacity: 0.65;
+    }
+
+    span.day {
+      visibility: hidden;
+    }
+
+    .settings {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .settings fieldset {
+      border: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .settings legend {
+      font-size: 0.85rem;
+      font-weight: bold;
+      padding: 0;
+      margin-bottom: 4px;
+    }
   </style>
 </head>
 
 <body>
 
   <main>
-    <h1>MesseMuffel</h1>
-
-    <h2>Messetermine finden</h2>
-
-    <div class="controls">
-      <label>Standort
-        <input type="text" id="city" value="Köln">
-      </label>
-      <label>Monat
-        <select id="month"></select>
-      </label>
-      <label>Jahr
-        <select id="year"></select>
-      </label>
+    <div class="lang">
+      <button type="button" id="langDe">DE</button>
+      <button type="button" id="langEn">EN</button>
     </div>
 
-    <ul id="months">
-      <li><a href="https://www.koelnmesse.de/aktuelle-termine/alle-messen/" target="_blank"
-          rel="noopener">koelnmesse.de – Alle Messen</a></li>
-    </ul>
+    <h1>MesseMuffel</h1>
 
-    <h2>Terminvorschläge</h2>
-    <div id="suggestions"></div>
+    <p id="info"></p>
+
+    <form class="controls" onsubmit="return false;">
+      <label><span data-i18n="city">Stadt</span>
+        <select id="city"></select>
+      </label>
+      <label><span data-i18n="month">Monat</span>
+        <select id="month"></select>
+      </label>
+      <label><span data-i18n="year">Jahr</span>
+        <select id="year"></select>
+      </label>
+    </form>
+
+    <button type="button" class="calnav" id="calPrev">▲</button>
+    <div id="calendar"></div>
+    <button type="button" class="calnav" id="calNext">▼</button>
+
+    <h2 data-i18n="settings">Einstellungen</h2>
+    <div class="settings">
+      <fieldset>
+        <legend data-i18n="travelLegend">Bei Klick setze Check-In und Check-Out für:</legend>
+        <label>
+          <input type="radio" name="travel" value="arrival">
+          <span data-i18n="arrival">Anreise</span>
+        </label>
+        <label>
+          <input type="radio" name="travel" value="departure">
+          <span data-i18n="departure">Abreise</span>
+        </label>
+        <label>
+          <input type="radio" name="travel" value="both">
+          <span data-i18n="travelBoth">Anreise und Abreise</span>
+        </label>
+      </fieldset>
+      <label>
+        <input type="checkbox" id="balcony">
+        <span data-i18n="balcony">Ich wünschte ich hätte ein Zimmer mit Balkon</span>
+      </label>
+    </div>
   </main>
 
   <script>
-    const MONTH_NAMES = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-      'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+    const MONTH_NAMES = {
+      de: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+        'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+      en: ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December']
+    };
+    const WEEKDAY_NAMES = {
+      de: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'],
+      en: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    };
+    const TEXTS = {
+      de: {
+        info: city => [
+          `Vorschläge zur Terminfindung für Treffen in ${city}.`,
+          'Abseits von Messen sind Übernachtungen in Hotels günstiger.',
+          'Bei Klick auf einen Tag werden Übernachtungspreise angezeigt.'],
+        city: 'Stadt', month: 'Monat', year: 'Jahr',
+        settings: 'Einstellungen',
+        travelLegend: 'Bei Klick setze Check-In und Check-Out für:',
+        balcony: 'Ich wünschte ich hätte ein Zimmer mit Balkon',
+        arrival: 'Anreise', departure: 'Abreise',
+        travelBoth: 'Anreise und Abreise',
+        prevMonth: 'Voriger Monat', nextMonth: 'Nächster Monat'
+      },
+      en: {
+        info: city => [
+          `Suggestions for scheduling meetings in ${city}.`,
+          'Away from trade fairs, hotel stays are cheaper.',
+          'Click a day to see accommodation prices.'],
+        city: 'City', month: 'Month', year: 'Year',
+        settings: 'Settings',
+        travelLegend: 'On click, set check-in and check-out for:',
+        balcony: 'I wish I had a room with a balcony',
+        arrival: 'Arrival', departure: 'Departure',
+        travelBoth: 'Arrival and departure',
+        prevMonth: 'Previous month', nextMonth: 'Next month'
+      }
+    };
+    const LEVEL_COLORS = ['#63be7b', '#a9d08e', '#ffd966', '#f4b183', '#e06666'];
     const DEFAULT_CITY = 'Köln';
+    const DEFAULT_PLACE = {
+      name: 'Startplatz', strasse: 'Im Mediapark', hausnummer: '5',
+      latitude: 50.9487485, longitude: 6.943942
+    };
+    const STORAGE_KEY = 'messemuffel';
 
-    const cityInput = document.getElementById('city');
+    // Zustand; Stadt/Monat/Jahr starten bei jedem Laden mit den Defaults,
+    // nur die Einstellungen werden im Browser gespeichert.
+    const now = new Date();
+    let state = {
+      city: DEFAULT_CITY,
+      month: now.getMonth() + 1, year: now.getFullYear(),
+      balcony: false, travel: 'arrival', lang: 'de'
+    };
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      if (saved) {
+        for (const key of ['lang', 'balcony', 'travel']) {
+          if (key in saved) state[key] = saved[key];
+        }
+      }
+    } catch (e) { /* gespeicherter Zustand ungültig */ }
+
+    let config = null;    // data-config.json
+    let processed = {};   // data-processed.json
+
+    const citySelect = document.getElementById('city');
     const monthSelect = document.getElementById('month');
     const yearSelect = document.getElementById('year');
-    const list = document.getElementById('months');
-    let occupancy = null;
+    const calendar = document.getElementById('calendar');
+    const balconyInput = document.getElementById('balcony');
 
-    function aumaUrl(year, month, city) {
-      const params = new URLSearchParams({
-        intFilterYearFrom: year,
-        intFilterYearTo: year,
-        intFilterMonthFrom: month,
-        intFilterMonthTo: month,
-        strLanguage: 'de',
-        intSort: '1',
-        intSeitenZahl: '1',
-        strFilterCity: city
-      });
-      return 'https://www.auma.de/messen-finden/?' + params.toString();
+    function t(key) { return TEXTS[state.lang][key]; }
+
+    function save() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          lang: state.lang, balcony: state.balcony, travel: state.travel
+        }));
+      } catch (e) { /* Speichern nicht möglich */ }
     }
 
-    function render() {
-      const city = cityInput.value.trim() || DEFAULT_CITY;
-      const startMonth = parseInt(monthSelect.value, 10);
-      const startYear = parseInt(yearSelect.value, 10);
-
-      list.querySelectorAll('li[data-month]').forEach(li => li.remove());
-      for (let i = 0; i < 6; i++) {
-        const date = new Date(startYear, startMonth - 1 + i, 1);
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-
-        const a = document.createElement('a');
-        a.href = aumaUrl(year, month, city);
-        a.target = '_blank';
-        a.rel = 'noopener';
-        a.textContent = 'AUMA Messen ' + MONTH_NAMES[month - 1] + ' ' + year;
-
-        const li = document.createElement('li');
-        li.dataset.month = month;
-        li.appendChild(a);
-        list.appendChild(li);
-      }
-
-      if (occupancy) renderSuggestions(occupancy);
+    function configCity(name) {
+      if (!config) return null;
+      const query = name.trim().toLowerCase();
+      return config.staedte.find(c =>
+        c.name.toLowerCase() === query || c.id === query) || null;
     }
 
-    // Selects befüllen; aktueller Monat im aktuellen Jahr ist vorselektiert.
-    const now = new Date();
-    MONTH_NAMES.forEach((name, index) => {
-      const option = document.createElement('option');
-      option.value = index + 1;
-      option.textContent = name;
-      monthSelect.appendChild(option);
-    });
-    monthSelect.value = now.getMonth() + 1;
-
-    for (let year = now.getFullYear(); year <= now.getFullYear() + 3; year++) {
-      const option = document.createElement('option');
-      option.value = year;
-      option.textContent = year;
-      yearSelect.appendChild(option);
+    function currentPlace() {
+      const city = configCity(state.city);
+      if (city && city.orte && city.orte.length) return city.orte[0];
+      if (state.city.trim() === DEFAULT_CITY) return DEFAULT_PLACE;
+      return null;
     }
-    yearSelect.value = now.getFullYear();
 
-    cityInput.addEventListener('input', render);
-    monthSelect.addEventListener('change', render);
-    yearSelect.addEventListener('change', render);
-    render();
+    function cityData() {
+      const city = configCity(state.city);
+      return (city && processed[city.id]) || {};
+    }
 
-    // Terminvorschläge: Belegungskarte aus data-processed.json
-    const suggestions = document.getElementById('suggestions');
-    const WEEKDAY_NAMES = ['Mo', 'Di', 'Mi', 'Do', 'Fr'];
-    const LEVEL_COLORS = ['#63be7b', '#a9d08e', '#ffd966', '#f4b183', '#e06666'];
-
-    function toIso(date) {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return year + '-' + month + '-' + day;
+    function toIso(day) {
+      const year = day.getFullYear();
+      const month = String(day.getMonth() + 1).padStart(2, '0');
+      const date = String(day.getDate()).padStart(2, '0');
+      return year + '-' + month + '-' + date;
     }
 
     function bookingUrl(day) {
       const checkin = new Date(day);
-      checkin.setDate(checkin.getDate() - 1);
+      const checkout = new Date(day);
+      if (state.travel !== 'departure') {
+        checkin.setDate(checkin.getDate() - 1);  // Anreise: Nacht davor
+      }
+      if (state.travel !== 'arrival') {
+        checkout.setDate(checkout.getDate() + 1);  // Abreise: Nacht danach
+      }
+      const place = currentPlace();
+      const address = place
+        ? [place.strasse, place.hausnummer, state.city.trim()]
+        : [state.city.trim()];
       const params = new URLSearchParams({
-        ss: 'Im Mediapark 5',
-        latitude: '50.9487485',
-        longitude: '6.943942',
-        checkin: toIso(checkin),
-        checkout: toIso(day),
-        group_adults: '1'
+        ss: address.filter(Boolean).join(' ')
       });
+      if (place && place.latitude != null) {
+        params.set('latitude', place.latitude);
+        params.set('longitude', place.longitude);
+      }
+      params.set('checkin', toIso(checkin));
+      params.set('checkout', toIso(checkout));
+      params.set('group_adults', '1');
+      if (state.balcony) params.set('nflt', 'roomfacility=17');
       return 'https://www.booking.com/searchresults.de.html?' + params.toString();
     }
 
-    function renderSuggestions(data) {
-      suggestions.textContent = '';
-
-      // Nur die 6 Monate ab dem im Formular gewählten Monat anzeigen.
-      const start = new Date(parseInt(yearSelect.value, 10),
-        parseInt(monthSelect.value, 10) - 1, 1);
-      const end = new Date(start.getFullYear(), start.getMonth() + 6, 0);
-      const filtered = {};
-      for (const [iso, level] of Object.entries(data)) {
-        const day = new Date(iso + 'T00:00:00');
-        if (day >= start && day <= end) filtered[iso] = level;
-      }
-
-      const keys = Object.keys(filtered).sort();
-      if (!keys.length) {
-        suggestions.textContent = 'Keine Daten verfügbar.';
-        return;
-      }
-      const present = new Set(keys);
-      const first = new Date(keys[0] + 'T00:00:00');
-      const last = new Date(keys[keys.length - 1] + 'T00:00:00');
+    function renderCalendar() {
+      calendar.textContent = '';
+      const data = cityData();
+      const windowStart = new Date(state.year, state.month - 1, 1);
+      const windowEnd = new Date(state.year, state.month + 1, 0);
 
       // Deutsche Kalenderwoche beginnt am Montag.
-      const monday = new Date(first);
+      const monday = new Date(windowStart);
       monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
 
       let currentMonth = null;
-      while (monday <= last) {
+      while (monday <= windowEnd) {
         const weekDays = [];
         for (let i = 0; i < 7; i++) {
           const day = new Date(monday);
           day.setDate(day.getDate() + i);
           weekDays.push(day);
         }
-        // Nur vollständig in den Daten abgebildete Wochen verarbeiten.
-        if (weekDays.every(day => present.has(toIso(day)))) {
-          const monthKey = monday.getFullYear() * 12 + monday.getMonth();
-          if (monthKey !== currentMonth) {
-            currentMonth = monthKey;
-            const heading = document.createElement('h3');
-            heading.textContent = MONTH_NAMES[monday.getMonth()] + ' ' +
-              monday.getFullYear();
-            suggestions.appendChild(heading);
-          }
-          const week = document.createElement('div');
-          week.className = 'week';
-          for (let i = 0; i < 5; i++) { // Montag bis Freitag
-            const iso = toIso(weekDays[i]);
-            const box = document.createElement('a');
-            box.className = 'day';
-            box.href = bookingUrl(weekDays[i]);
-            box.target = '_blank';
-            box.rel = 'noopener';
-            box.style.background = LEVEL_COLORS[filtered[iso]];
-            box.title = iso;
-
-            const weekday = document.createElement('span');
-            weekday.className = 'weekday';
-            weekday.textContent = WEEKDAY_NAMES[i];
-            const date = document.createElement('span');
-            date.className = 'date';
-            date.textContent = weekDays[i].getDate();
-
-            box.appendChild(weekday);
-            box.appendChild(date);
-            week.appendChild(box);
-          }
-          suggestions.appendChild(week);
+        const firstInWindow = weekDays.find(d => d >= windowStart);
+        const monthKey = firstInWindow.getFullYear() * 12 + firstInWindow.getMonth();
+        if (monthKey !== currentMonth) {
+          currentMonth = monthKey;
+          const heading = document.createElement('h3');
+          heading.textContent = MONTH_NAMES[state.lang][firstInWindow.getMonth()] +
+            ' ' + firstInWindow.getFullYear();
+          calendar.appendChild(heading);
         }
+        const week = document.createElement('div');
+        week.className = 'week';
+        weekDays.forEach((day, i) => {
+          const iso = toIso(day);
+          const inWindow = day >= windowStart && day <= windowEnd;
+          const box = document.createElement('a');
+          box.className = 'day' + (i >= 5 ? ' weekend' : '') +
+            (inWindow ? '' : ' out');
+          box.href = bookingUrl(day);
+          box.target = '_blank';
+          box.rel = 'noopener';
+          box.style.background = LEVEL_COLORS[data[iso] || 0];
+          box.title = iso;
+
+          const weekday = document.createElement('span');
+          weekday.className = 'weekday';
+          weekday.textContent = WEEKDAY_NAMES[state.lang][i];
+          const date = document.createElement('span');
+          date.className = 'date';
+          date.textContent = day.getDate();
+
+          box.appendChild(weekday);
+          box.appendChild(date);
+          week.appendChild(box);
+        });
+        calendar.appendChild(week);
         monday.setDate(monday.getDate() + 7);
       }
     }
 
-    fetch('data-processed.json')
-      .then(response => {
-        if (!response.ok) throw new Error('HTTP ' + response.status);
-        return response.json();
-      })
-      .then(data => {
-        occupancy = data;
-        renderSuggestions(occupancy);
-      })
-      .catch(() => {
-        suggestions.textContent = 'Keine Daten verfügbar.';
+    function renderInfo() {
+      const info = document.getElementById('info');
+      info.textContent = '';
+      for (const line of t('info')(state.city)) {
+        const span = document.createElement('span');
+        span.textContent = line;
+        info.appendChild(span);
+      }
+    }
+
+    function ensureYearOption(year) {
+      if (![...yearSelect.options].some(o => o.value == year)) {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
+        [...yearSelect.options]
+          .sort((a, b) => a.value - b.value)
+          .forEach(o => yearSelect.appendChild(o));
+      }
+    }
+
+    function renderAll() {
+      document.documentElement.lang = state.lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.textContent = t(el.dataset.i18n);
       });
+      document.getElementById('langDe').classList.toggle('active', state.lang === 'de');
+      document.getElementById('langEn').classList.toggle('active', state.lang === 'en');
+      document.getElementById('calPrev').title = t('prevMonth');
+      document.getElementById('calNext').title = t('nextMonth');
+      renderInfo();
+
+      const cities = config ? config.staedte : [];
+      if (cities.length && !configCity(state.city)) state.city = DEFAULT_CITY;
+      citySelect.textContent = '';
+      for (const name of cities.length ? cities.map(c => c.name) : [state.city]) {
+        const option = document.createElement('option');
+        option.value = name;
+        option.textContent = name;
+        citySelect.appendChild(option);
+      }
+      citySelect.value = state.city;
+
+      monthSelect.textContent = '';
+      MONTH_NAMES[state.lang].forEach((name, index) => {
+        const option = document.createElement('option');
+        option.value = index + 1;
+        option.textContent = name;
+        monthSelect.appendChild(option);
+      });
+      monthSelect.value = state.month;
+
+      if (!yearSelect.options.length) {
+        for (let year = now.getFullYear(); year <= now.getFullYear() + 3; year++) {
+          const option = document.createElement('option');
+          option.value = year;
+          option.textContent = year;
+          yearSelect.appendChild(option);
+        }
+      }
+      ensureYearOption(state.year);
+      yearSelect.value = state.year;
+
+      balconyInput.checked = state.balcony;
+      document.querySelector(`input[name="travel"][value="${state.travel}"]`)
+        .checked = true;
+      renderCalendar();
+    }
+
+    function shiftMonth(delta) {
+      const date = new Date(state.year, state.month - 1 + delta, 1);
+      state.year = date.getFullYear();
+      state.month = date.getMonth() + 1;
+      save();
+      renderAll();
+    }
+
+    citySelect.addEventListener('change', () => {
+      state.city = citySelect.value;
+      save();
+      renderInfo();
+      renderCalendar();
+    });
+    monthSelect.addEventListener('change', () => {
+      state.month = parseInt(monthSelect.value, 10);
+      save();
+      renderCalendar();
+    });
+    yearSelect.addEventListener('change', () => {
+      state.year = parseInt(yearSelect.value, 10);
+      save();
+      renderCalendar();
+    });
+    balconyInput.addEventListener('change', () => {
+      state.balcony = balconyInput.checked;
+      save();
+      renderCalendar();
+    });
+    document.querySelectorAll('input[name="travel"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        state.travel = radio.value;
+        save();
+        renderCalendar();
+      });
+    });
+    document.getElementById('calPrev').addEventListener('click', () => shiftMonth(-1));
+    document.getElementById('calNext').addEventListener('click', () => shiftMonth(1));
+    document.getElementById('langDe').addEventListener('click', () => {
+      state.lang = 'de'; save(); renderAll();
+    });
+    document.getElementById('langEn').addEventListener('click', () => {
+      state.lang = 'en'; save(); renderAll();
+    });
+
+    renderAll();
+    Promise.all([
+      fetch('data-config.json').then(r => r.ok ? r.json() : null),
+      fetch('data-processed.json').then(r => r.ok ? r.json() : {})
+    ]).then(([cfg, proc]) => {
+      config = cfg;
+      processed = proc || {};
+      renderAll();
+    }).catch(() => { /* Offline/Nicht erreichbar: Seite bleibt nutzbar */ });
   </script>
 
 </body>

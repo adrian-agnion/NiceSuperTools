@@ -1,0 +1,67 @@
+{
+  "staedte": [
+    {
+      "id": "koeln",
+      "name": "Köln",
+      "auma": "K%C3%B6ln",
+      "orte": [
+        {
+          "name": "Startplatz",
+          "strasse": "Im Mediapark",
+          "hausnummer": "5",
+          "latitude": 50.9487485, "longitude": 6.943942
+        }
+      ]
+    },
+    {
+      "id": "mettmann",
+      "name": "Mettmann",
+      "orte": [
+        {
+          "name": "Villa",
+          "strasse": "Johannes-Flintrop-Straße",
+          "hausnummer": "72",
+          "latitude": 51.2535033, "longitude": 6.9831518
+        }
+      ]
+    },
+    {
+      "id": "offenbach",
+      "name": "Offenbach",
+      "auma": "Offenbach",
+      "orte": [
+        {
+          "name": "Helaba",
+          "strasse": "Kaiserleistraße",
+          "hausnummer": "29-35",
+          "latitude": 50.1088865, "longitude": 8.7364358
+        }
+      ]
+    },
+    {
+      "id": "frankfurt",
+      "name": "Frankfurt",
+      "auma": "Frankfurt%20am%20Main",
+      "orte": [
+        {
+          "name": "Taunusanlage",
+          "strasse": "Taunusanlage",
+          "latitude": 50.1142664, "longitude": 8.6699742
+        }
+      ]
+    },
+    {
+      "id": "muenchen",
+      "name": "München",
+      "auma": "M%C3%BCnchen",
+      "orte": [
+        {
+          "name": "Allianz",
+          "strasse": "Königinstraße",
+          "hausnummer": "28",
+          "latitude": 48.1544955, "longitude": 11.5881129
+        }
+      ]
+    }
+  ]
+}

@@ -1,12 +1,13 @@
 Ziel ist es, relevante Daten bezüglich Messen in Städten abzugreifen um abzuschätzen, in welchen Zeiträumen in der Stadt außerhalb von Messezeiten wenig Betrieb ist und daher Hotelpreise eher günstig sind.
 
 Es soll ein Script `get-data.py` erstellt werden.
-Dieses erzeugt eine Datei `data.json`.
+Eingabeparameter ist eine Stadt-ID.
+Zu verwendene Parameter sind in `data-config.json` unter der Variable `auma`zu finden, jeweils mit StadtID in `id`.
+Es soll jeweis eine Datei `data-[StadtID].auma.json` erzeugt werden.
 
-Im Script wird das aktuelle Datum ermittelt, um Web-Requests zu erstellen.
-
-Städte: Köln
-Zeitraum: Aktueller Monat bis Ende 2027.
+Im Script wird das aktuelle Datum als Startmonat ermittelt, um Web-Requests zu erstellen.
+Ende ist Dezember des aktuellen Jahres, falls gerade Januar bis April ist.
+Ende ist Dezember des Folgejahres, falls gerade Mai bis Dezember ist.
 
 Die folgenden Ressourcen sollen verwendet werden.
 
@@ -55,6 +56,6 @@ Liste mit Sub-Elementen je Element:
 - isLargeEvent (boolean, falls aus AUMA Ergebnissen)
 - source (string, URL der Quelle)
 
-Bei Unklarheiten kann der folgende Bereich "Misc" genutzt werden.
+Bei Unklarheiten kann der folgende Bereich "Misc" für Notizen und Nachfragen genutzt werden.
 
 # Misc

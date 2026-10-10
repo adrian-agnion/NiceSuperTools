@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
-"""Sammelt Messetermine in Köln vom aktuellen Monat bis Ende 2027.
+"""Sammelt Messetermine für Städte aus data-config.json.
+
+Aufruf: python3 get-data.py <StadtID> [<StadtID> ...]
+
+Zeitraum: aktueller Monat bis Dezember des aktuellen Jahres
+(Januar–April) bzw. Dezember des Folgejahres (Mai–Dezember).
 
 Quellen:
-- AUMA Messe-Finder (API + Detailseiten für Aussteller-/Besucherzahlen)
-- koelnmesse.de "Alle Messen"
+- AUMA Messe-Finder (API + Detailseiten für Aussteller-/Besucherzahlen),
+  sofern die Stadt in data-config.json einen `auma`-Parameter hat
+- koelnmesse.de "Alle Messen" (Filter auf den Stadtnamen)
 
-Ergebnis: data.json mit Einträgen der Form
+Ergebnis: data-<StadtID>.auma.json mit Einträgen der Form
     periodStart, periodEnd, title, numberOfVisitors, numberOfPresenters,
     isLargeEvent, source
 
@@ -16,16 +22,16 @@ erreichbar, werden die Cache-Werte verwendet.
 import hashlib
 import json
 import re
+import sys
 import time
 from calendar import monthrange
 from datetime import date, datetime, timezone
 from pathlib import Path
+from urllib.parse import unquote
 
 import requests
 from bs4 import BeautifulSoup
 
-CITY = "Köln"
-END_YEAR = 2027  # Zeitraum: aktueller Monat bis Ende 2027
 PAGE_SIZE = 25  # Ergebnisse pro Seite der AUMA-Suche
 
 AUMA_API = "https://www.auma.de/api/TradeFairData/getWebOverviewTradeFairData"
@@ -40,16 +46,25 @@ HEADERS = {
 }
 
 BASE_DIR = Path(__file__).resolve().parent
-OUTPUT_FILE = BASE_DIR / "data.json"
+CONFIG_FILE = BASE_DIR / "data-config.json"
 CACHE_DIR = BASE_DIR / "cache"
 
 
 def relevant_months(today):
-    """Liefert (Jahr, Monat) vom aktuellen Monat bis Dezember END_YEAR."""
+    """Liefert (Jahr, Monat) vom aktuellen Monat bis Dezember des Endjahres.
+
+    Endjahr: aktuelles Jahr bei Januar–April, sonst das Folgejahr.
+    """
+    end_year = today.year if today.month <= 4 else today.year + 1
     start = today.year * 12 + today.month - 1
-    month_count = END_YEAR * 12 + 12 - start
+    month_count = end_year * 12 + 12 - start
     return [((start + i) // 12, (start + i) % 12 + 1)
             for i in range(month_count)]
+
+
+def load_cities():
+    """Liest die Städte aus data-config.json."""
+    return json.loads(CONFIG_FILE.read_text(encoding="utf-8"))["staedte"]
 
 
 def parse_period(text):
@@ -164,7 +179,7 @@ def fetch_auma_details(session, url_parameter):
     return visitors, presenters
 
 
-def fetch_auma(session, months):
+def fetch_auma(session, months, city_filter):
     """Messen aus der AUMA-Suche (große Messen, inkl. Kennzahlen)."""
     events = []
     for year, month in months:
@@ -174,7 +189,7 @@ def fetch_auma(session, months):
             "intFilterMonthFrom": month,
             "intFilterMonthTo": month,
             "strLanguage": "de",
-            "strFilterCity": CITY,
+            "strFilterCity": city_filter,
         }
         count = get_json(session, AUMA_API_COUNT, params)
         if count is None:
@@ -210,11 +225,8 @@ def fetch_auma(session, months):
     return events
 
 
-def fetch_koelnmesse(session, window_start, window_end):
-    """Messen aus der koelnmesse-Übersicht (nur Stadt Köln, ohne Kennzahlen)."""
-    text = fetch_text(session, KOELNMESSE_OVERVIEW)
-    if text is None:
-        return []
+def parse_koelnmesse(text, city_name, window_start, window_end):
+    """Messen aus der koelnmesse-Übersicht (nur passende Stadt, ohne Kennzahlen)."""
     soup = BeautifulSoup(text, "html.parser")
     events = []
     for item in soup.select(".item"):
@@ -223,7 +235,7 @@ def fetch_koelnmesse(session, window_start, window_end):
         if not name or not date_entry:
             continue
         date_part, _, city = date_entry.get_text(strip=True).partition(",")
-        if city.strip() != CITY:
+        if city.strip() != city_name:
             continue
         period = parse_period(date_part)
         if not period:
@@ -243,24 +255,57 @@ def fetch_koelnmesse(session, window_start, window_end):
     return events
 
 
+def collect_city(session, city, months, koelnmesse_html):
+    """Sammelt alle Messen einer Stadt und schreibt die Ausgabedatei."""
+    city_id = city["id"]
+    events = []
+    if city.get("auma"):
+        # Konfigurierter Wert ist bereits URL-kodiert (z. B. "K%C3%B6ln")
+        events = fetch_auma(session, months, unquote(city["auma"]))
+    else:
+        print(f"Hinweis: kein AUMA-Parameter für '{city_id}' konfiguriert")
+
+    if koelnmesse_html is not None:
+        window_start = date(months[0][0], months[0][1], 1)
+        last_year, last_month = months[-1]
+        window_end = date(last_year, last_month,
+                          monthrange(last_year, last_month)[1])
+        events += parse_koelnmesse(koelnmesse_html, city["name"],
+                                   window_start, window_end)
+
+    events.sort(key=lambda e: (e["periodStart"], e["title"]))
+    output_file = BASE_DIR / f"data-{city_id}.auma.json"
+    output_file.write_text(
+        json.dumps(events, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8")
+    print(f"{len(events)} Einträge in {output_file} geschrieben.")
+
+
 def main():
+    cities = load_cities()
+    if len(sys.argv) < 2:
+        ids = ", ".join(city["id"] for city in cities)
+        print(f"Aufruf: python3 {Path(sys.argv[0]).name} "
+              f"<StadtID> [<StadtID> …]\nVerfügbare Stadt-IDs: {ids}")
+        sys.exit(1)
+
     today = date.today()
     months = relevant_months(today)
-    window_start = date(months[0][0], months[0][1], 1)
-    # letzter Tag des letzten relevanten Monats
-    last_year, last_month = months[-1]
-    window_end = date(last_year, last_month, monthrange(last_year, last_month)[1])
 
     session = requests.Session()
     session.headers.update(HEADERS)
 
-    events = fetch_auma(session, months)
-    events += fetch_koelnmesse(session, window_start, window_end)
-    events.sort(key=lambda e: (e["periodStart"], e["title"]))
+    # koelnmesse-Übersicht gilt für alle Städte, daher nur einmal abrufen
+    koelnmesse_html = fetch_text(session, KOELNMESSE_OVERVIEW)
 
-    OUTPUT_FILE.write_text(
-        json.dumps(events, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"{len(events)} Einträge in {OUTPUT_FILE} geschrieben.")
+    for city_id in sys.argv[1:]:
+        city = next((c for c in cities if c["id"] == city_id), None)
+        if city is None:
+            print(f"Warnung: Stadt-ID '{city_id}' nicht in {CONFIG_FILE} "
+                  "gefunden – übersprungen")
+            continue
+        print(f"=== {city['name']} ({city_id}) ===")
+        collect_city(session, city, months, koelnmesse_html)
 
 
 if __name__ == "__main__":
