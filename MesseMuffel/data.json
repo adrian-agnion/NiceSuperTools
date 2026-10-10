@@ -304,5 +304,230 @@
     "numberOfPresenters": 2010,
     "isLargeEvent": true,
     "source": "https://www.auma.de/messen-finden/details/?tfd=koln_ids_229045"
+  },
+  {
+    "periodStart": "2027-04-02",
+    "periodEnd": "2027-04-04",
+    "title": "h+h cologne",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-04-02",
+    "periodEnd": "2027-04-04",
+    "title": "h+h cologne - Internationale Fachmesse für Handarbeit + Hobby",
+    "numberOfVisitors": 10926,
+    "numberOfPresenters": 279,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_h-h-cologne_233090"
+  },
+  {
+    "periodStart": "2027-04-08",
+    "periodEnd": "2027-04-11",
+    "title": "FIBO",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-04-08",
+    "periodEnd": "2027-04-11",
+    "title": "FIBO - Internationale Leitmesse für Fitness, Wellness und Gesundheit",
+    "numberOfVisitors": 175595,
+    "numberOfPresenters": 947,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_fibo_233348"
+  },
+  {
+    "periodStart": "2027-04-20",
+    "periodEnd": "2027-04-21",
+    "title": "RDA Group Travel Expo",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-05-11",
+    "periodEnd": "2027-05-14",
+    "title": "interzum",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-05-11",
+    "periodEnd": "2027-05-14",
+    "title": "interzum - Die Weltleitmesse für Möbelfertigung und Interior Design",
+    "numberOfVisitors": 58504,
+    "numberOfPresenters": 1616,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_interzum_229317"
+  },
+  {
+    "periodStart": "2027-05-12",
+    "periodEnd": "2027-05-13",
+    "title": "INSURENXT - International conference & expo for innovation in insurance",
+    "numberOfVisitors": 3851,
+    "numberOfPresenters": 90,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_insurenxt-international-conference-expo-fo_233415"
+  },
+  {
+    "periodStart": "2027-06-01",
+    "periodEnd": "2027-06-03",
+    "title": "ANGA COM",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-06-15",
+    "periodEnd": "2027-06-17",
+    "title": "SPOGA+GAFA - Die größte Garten- und BBQ-Messe der Welt",
+    "numberOfVisitors": 21653,
+    "numberOfPresenters": 1321,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_spoga-gafa_233091"
+  },
+  {
+    "periodStart": "2027-06-15",
+    "periodEnd": "2027-06-17",
+    "title": "spoga+gafa",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-08-23",
+    "periodEnd": "2027-08-29",
+    "title": "GAMESCOM - Das weltweit größte Event für Computer- und Videospiele",
+    "numberOfVisitors": 357416,
+    "numberOfPresenters": 1629,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_gamescom_232997"
+  },
+  {
+    "periodStart": "2027-09-06",
+    "periodEnd": "2027-09-08",
+    "title": "Towards tomorrow - EUROPEAN BIKE SHOW",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koeln_towards-tomorrow_236721"
+  },
+  {
+    "periodStart": "2027-09-06",
+    "periodEnd": "2027-09-08",
+    "title": "towards tomorrow - European Bike Show",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-09-07",
+    "periodEnd": "2027-09-09",
+    "title": "KIND + JUGEND - The Trade Show for Kids' First Years",
+    "numberOfVisitors": 12706,
+    "numberOfPresenters": 792,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_kind-jugend_233162"
+  },
+  {
+    "periodStart": "2027-09-14",
+    "periodEnd": "2027-09-16",
+    "title": "ZUKUNFT PERSONAL EUROPE",
+    "numberOfVisitors": 25897,
+    "numberOfPresenters": 475,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_zukunft-personal-europe_232988"
+  },
+  {
+    "periodStart": "2027-09-22",
+    "periodEnd": "2027-09-23",
+    "title": "DMEXCO - Europas führendes Digital Marketing und Tech Event",
+    "numberOfVisitors": 27372,
+    "numberOfPresenters": 510,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_dmexco_232989"
+  },
+  {
+    "periodStart": "2027-09-24",
+    "periodEnd": "2027-09-26",
+    "title": "Imaging World inspired by photokina",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-10-09",
+    "periodEnd": "2027-10-13",
+    "title": "Anuga",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-10-09",
+    "periodEnd": "2027-10-13",
+    "title": "Anuga - Die Leitmesse für die globale Ernährungswirtschaft",
+    "numberOfVisitors": 143432,
+    "numberOfPresenters": 8217,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_anuga_229126"
+  },
+  {
+    "periodStart": "2027-10-26",
+    "periodEnd": "2027-10-29",
+    "title": "FSB",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-10-26",
+    "periodEnd": "2027-10-29",
+    "title": "aquanale",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
+  },
+  {
+    "periodStart": "2027-10-26",
+    "periodEnd": "2027-10-29",
+    "title": "aquanale/FSB - aquanale - Internationale Fachmesse für Sauna.Pool.Ambiente. FSB - Internationale Fachmesse für Freiraum, Sport- und Bewegungseinrichtungen",
+    "numberOfVisitors": 27726,
+    "numberOfPresenters": 867,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_aquanale-fsb_229405"
+  },
+  {
+    "periodStart": "2027-11-23",
+    "periodEnd": "2027-11-25",
+    "title": "PMREXPO - Europäische Leitmesse für sichere Kommunikation",
+    "numberOfVisitors": 5447,
+    "numberOfPresenters": 265,
+    "isLargeEvent": true,
+    "source": "https://www.auma.de/messen-finden/details/?tfd=koln_pmrexpo_233366"
+  },
+  {
+    "periodStart": "2027-11-23",
+    "periodEnd": "2027-11-25",
+    "title": "PMRExpo",
+    "numberOfVisitors": null,
+    "numberOfPresenters": null,
+    "isLargeEvent": false,
+    "source": "https://www.koelnmesse.de/aktuelle-termine/alle-messen/"
   }
 ]

@@ -1,10 +1,12 @@
-Ziel ist es, relevante Daten bezüglich Messen in Köln abzugreifen um abzuschätzen, in welchen Zeiträumen in der Stadt außerhalb von Messezeiten wenig Betrieb ist und daher Hotelpreise eher günstig sind.
+Ziel ist es, relevante Daten bezüglich Messen in Städten abzugreifen um abzuschätzen, in welchen Zeiträumen in der Stadt außerhalb von Messezeiten wenig Betrieb ist und daher Hotelpreise eher günstig sind.
 
 Es soll ein Script `get-data.py` erstellt werden.
 Dieses erzeugt eine Datei `data.json`.
 
 Im Script wird das aktuelle Datum ermittelt, um Web-Requests zu erstellen.
-Relevant ist der aktuelle Monat und zusätzlich die fogenden fünf Monate.
+
+Städte: Köln
+Zeitraum: Aktueller Monat bis Ende 2027.
 
 Die folgenden Ressourcen sollen verwendet werden.
 

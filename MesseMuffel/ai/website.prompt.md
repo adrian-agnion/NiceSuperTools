@@ -2,14 +2,21 @@
 
 Generiert werden soll exakt eine HTML Datei `index.htm`, die JS und CSS verwendet, keine weiteren Dateien.  
 Root-Verzeichnis ist im Folgenden eines unter dem, in der diese Datei liegt.
-
+Optimal wäre es, wenn die index.htm auch lokal im Browser mit Daten angezeigt werden kann, optional nur online.
 Für Layout soll eine Datei eingebunden (aber nicht editiert) werden: `../css/style.css`.
+
+Städte: Köln
+Zeitraum: Aktueller Monat bis Ende 2027.
+
+## Info
+
+Ein kurzer, freundlicher Infotext. Inhalt in etwa: Vorschläge für Terminfindung Treffen in Köln. Abseits von Messen sind Übernachtungen in Hotels günstiger. Bei Klick auf Tag werden Übernachtungspreise für Folgetag angezeigt.
 
 ## Messetermine
 
-Sub-Überschrift: "Messetermine".
+Sub-Überschrift: "Messetermine finden".
 
-Ziel ist es, eine dynamische Liste mit Links zu kommenden Messeterminen in Köln zu erstellen, für den aktuellen und die folgenden 5 Monate.
+Ziel ist es, eine dynamische Liste mit Links zu kommenden Messeterminen zu erstellen.
 
 Linkziele sind:
 
@@ -35,3 +42,4 @@ Sub-Überschrift: "Terminvorschläge".
 - Mache für jeden Wochentag (Mo-Fr) ein Kästchen/Eintrag/ähnliches
 - Je nach Wert des Datums fülle das Kästchen farblich aus (hoher Wert=rot, mittel=gelb, klein=grün)
 - Mache jeweils einen (target="_blank") Link zu `https://www.booking.com/searchresults.de.html?ss=Im+Mediapark+5&latitude=50.9487485&longitude=6.943942&checkin=2026-10-09&checkout=2026-10-10&group_adults=1`, wobei das Checkout-Datum der aktuelle Tag sein soll und das Checkin-Datum einen Tag davor.
+- Die angezeigten Daten für 6 Monate sollen nach aktuellen Formulardaten geschehen, Jahr und Monat.

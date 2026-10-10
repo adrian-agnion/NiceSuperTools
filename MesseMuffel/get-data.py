@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Sammelt Messetermine in Köln für den aktuellen und die fünf Folgemonate.
+"""Sammelt Messetermine in Köln vom aktuellen Monat bis Ende 2027.
 
 Quellen:
 - AUMA Messe-Finder (API + Detailseiten für Aussteller-/Besucherzahlen)
@@ -25,7 +25,7 @@ import requests
 from bs4 import BeautifulSoup
 
 CITY = "Köln"
-MONTH_COUNT = 6  # aktueller Monat + fünf Folgemonate
+END_YEAR = 2027  # Zeitraum: aktueller Monat bis Ende 2027
 PAGE_SIZE = 25  # Ergebnisse pro Seite der AUMA-Suche
 
 AUMA_API = "https://www.auma.de/api/TradeFairData/getWebOverviewTradeFairData"
@@ -45,10 +45,11 @@ CACHE_DIR = BASE_DIR / "cache"
 
 
 def relevant_months(today):
-    """Liefert (Jahr, Monat) für den aktuellen und die fünf Folgemonate."""
-    return [((today.year * 12 + today.month - 1 + i) // 12,
-             (today.year * 12 + today.month - 1 + i) % 12 + 1)
-            for i in range(MONTH_COUNT)]
+    """Liefert (Jahr, Monat) vom aktuellen Monat bis Dezember END_YEAR."""
+    start = today.year * 12 + today.month - 1
+    month_count = END_YEAR * 12 + 12 - start
+    return [((start + i) // 12, (start + i) % 12 + 1)
+            for i in range(month_count)]
 
 
 def parse_period(text):
